@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Schema as SchemaTypes } from 'mongoose';
+import { Document, HydratedDocument, Schema as SchemaTypes } from 'mongoose';
 
 export type AuthDocument = HydratedDocument<Auth>;
 
 const COLLECTION_NAME = 'Auths';
 @Schema({ timestamps: true, collection: COLLECTION_NAME })
-export class Auth {
+export class Auth extends Document {
   @Prop({
     maxLength: [150, 'Name cannot exceed 150 characters'],
     minLength: [3, 'Name must be at least 3 characters long'],
@@ -35,11 +35,5 @@ export class Auth {
 
   @Prop({ default: [] })
   roles: [];
-
-  @Prop()
-  createdAt: Date;
-
-  @Prop()
-  updatedAt: Date;
 }
 export const AuthSchema = SchemaFactory.createForClass(Auth);

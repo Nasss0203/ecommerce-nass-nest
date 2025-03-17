@@ -15,9 +15,9 @@ import { Auth, AuthSchema } from './schemas/auth.schema';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET'),
+        secret: configService.get<string>('JWT_ACCESS_TOKEN'),
         signOptions: {
-          expiresIn: configService.get<string>('JWT_EXPIRE'),
+          expiresIn: configService.get<string>('JWT_ACCESS_EXPIRE'),
         },
       }),
       inject: [ConfigService],

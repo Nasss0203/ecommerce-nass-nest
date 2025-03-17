@@ -4,6 +4,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
+import { ProductsModule } from './modules/products/products.module';
+import { CategoryModule } from './modules/category/category.module';
+import { BrandModule } from './modules/brand/brand.module';
 
 @Module({
   imports: [
@@ -18,6 +21,9 @@ import { AuthModule } from './modules/auth/auth.module';
       isGlobal: true,
     }),
     AuthModule,
+    ProductsModule,
+    CategoryModule,
+    BrandModule,
   ],
   controllers: [AppController],
   providers: [AppService],
