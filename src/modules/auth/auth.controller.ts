@@ -6,9 +6,11 @@ import {
   Param,
   Patch,
   Post,
-  Request,
+  Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { Public, ResponseMessage } from 'src/common/customize';
 import { LocalAuthGuard } from 'src/common/guards/local-auth.guard';
 import { AuthService } from './auth.service';
@@ -28,9 +30,10 @@ export class AuthController {
 
   @Public()
   @UseGuards(LocalAuthGuard)
+  @ResponseMessage('Login successfully')
   @Post('login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  async login(@Req() req, @Res({ passthrough: true }) response: Response) {
+    return this.authService.login(req.user, response);
   }
 
   @Get()

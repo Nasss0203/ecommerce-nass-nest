@@ -8,6 +8,7 @@ import { ProductsModule } from './modules/products/products.module';
 import { CategoryModule } from './modules/category/category.module';
 import { BrandModule } from './modules/brand/brand.module';
 import { InventoryModule } from './modules/inventory/inventory.module';
+import { TokensModule } from './modules/tokens/tokens.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { InventoryModule } from './modules/inventory/inventory.module';
     CategoryModule,
     BrandModule,
     InventoryModule,
+    TokensModule,
   ],
   controllers: [AppController],
   providers: [AppService],

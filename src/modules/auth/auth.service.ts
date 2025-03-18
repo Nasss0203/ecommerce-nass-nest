@@ -1,9 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { compareSync } from 'bcrypt';
+import { Response } from 'express';
 import { Model } from 'mongoose';
 import { RoleAuth } from 'src/constants';
+import { convertToObjectIdMongodb } from 'src/utils';
+import { Token } from '../tokens/schemas/token.schema';
+import { TokensService } from '../tokens/tokens.service';
 import { IAuth } from './auth.interface';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
@@ -14,7 +19,10 @@ import { Auth } from './schemas/auth.schema';
 export class AuthService {
   constructor(
     @InjectModel(Auth.name) private authModel: Model<Auth>,
+    @InjectModel(Token.name) private tokenModel: Model<Token>,
+    private tokenService: TokensService,
     private jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
 
   async create(createAuthDto: CreateAuthDto) {
@@ -80,7 +88,7 @@ export class AuthService {
     return null;
   }
 
-  async login(user: IAuth) {
+  async login(user: IAuth, response: Response) {
     const { _id, username, email, roles } = user;
     const payload = {
       _id,
@@ -88,12 +96,42 @@ export class AuthService {
       email,
       roles,
     };
+    const access_token = this.jwtService.sign(payload);
+    const refresh_token = this.createRefreshToken(payload);
+
+    if (!refresh_token) {
+      throw new Error('Failed to generate refresh token');
+    }
+
+    await this.tokenService.create({
+      userId: convertToObjectIdMongodb(_id),
+      refreshToken: refresh_token,
+      refreshTokensUsed: [],
+    });
+
+    response.cookie('refresh_token', refresh_token, {
+      httpOnly: true,
+      maxAge: 259200000,
+      path: '',
+    });
+
     return {
-      access_token: this.jwtService.sign(payload),
       _id,
       username,
       email,
       roles,
+      tokens: {
+        access_token,
+        refresh_token,
+      },
     };
   }
+
+  createRefreshToken = (payload) => {
+    const refreshToken = this.jwtService.sign(payload, {
+      secret: this.configService.get<string>('JWT_REFRESH_TOKEN_SECRET'),
+      expiresIn: this.configService.get<string>('JWT_REFRESH_TOKEN_EXPIRE'),
+    });
+    return refreshToken;
+  };
 }
