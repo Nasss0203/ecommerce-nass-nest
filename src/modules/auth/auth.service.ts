@@ -18,15 +18,17 @@ export class AuthService {
   ) {}
 
   async create(createAuthDto: CreateAuthDto) {
-    const email = createAuthDto.email;
+    const existingAuth = await this.authModel
+      .findOne({ email: createAuthDto.email })
+      .lean();
 
-    const holder = await this.authModel.findOne({ email }).lean();
-    if (holder) {
+    if (existingAuth) {
       throw new HttpException(
         'Auth already registered',
         HttpStatus.BAD_REQUEST,
       );
     }
+
     const hashPassword = getHashPassword(createAuthDto.password);
 
     const auth = await this.authModel.create({
@@ -35,7 +37,9 @@ export class AuthService {
       roles: [RoleAuth.ADMIN],
     });
 
-    return auth;
+    const { _id, username, email, verify, roles } = auth;
+
+    return { _id, username, email, verify, roles };
   }
 
   findAll() {
