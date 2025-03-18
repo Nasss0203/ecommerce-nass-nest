@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { compareSync } from 'bcrypt';
 import { Model } from 'mongoose';
 import { RoleAuth } from 'src/constants';
+import { IAuth } from './auth.interface';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { getHashPassword } from './repo/index.repo';
@@ -75,11 +76,20 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
-    console.log('user~', user);
-    const payload = { email: user.email, sub: user.userId };
+  async login(user: IAuth) {
+    const { _id, username, email, roles } = user;
+    const payload = {
+      _id,
+      username,
+      email,
+      roles,
+    };
     return {
       access_token: this.jwtService.sign(payload),
+      _id,
+      username,
+      email,
+      roles,
     };
   }
 }

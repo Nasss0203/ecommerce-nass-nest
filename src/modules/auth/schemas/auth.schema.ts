@@ -33,7 +33,7 @@ export class Auth extends Document {
   @Prop({ default: false })
   verify: SchemaTypes.Types.Boolean;
 
-  @Prop({ default: [] })
-  roles: [];
+  @Prop({ default: [''] })
+  roles: [string];
 }
 export const AuthSchema = SchemaFactory.createForClass(Auth);

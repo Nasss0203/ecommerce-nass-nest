@@ -18,16 +18,16 @@ export class Product extends Document {
   product_description: string;
 
   @Prop({ required: true })
-  product_price: Number;
+  product_price: number;
 
   @Prop({ default: [''] })
-  product_images: [String];
+  product_images: [string];
 
   @Prop()
-  product_slug: String;
+  product_slug: string;
 
   @Prop({ required: true })
-  product_quantity: Number;
+  product_quantity: number;
 
   @Prop({
     required: true,
@@ -48,16 +48,18 @@ export class Product extends Document {
   @Prop({
     default: 4.5,
     min: [1, 'Rating must be above 1.0'],
-    max: [5, 'Rating must be above 5.0'],
+    max: [5, 'Rating must be below 5.0'],
   })
-  product_ratingAverage: Number;
+  product_ratingAverage: number;
   @Prop({ default: [] })
-  product_varations: [];
+  product_varations: any[];
 
   @Prop({ default: true, index: true, select: false })
-  isDraft: Boolean;
+  isDraft: boolean;
 
   @Prop({ default: false, index: true, select: false })
-  isPublished: Boolean;
+  isPublished: boolean;
 }
+
 export const ProductSchema = SchemaFactory.createForClass(Product);
+ProductSchema.index({ product_name: 'text', product_description: 'text' });

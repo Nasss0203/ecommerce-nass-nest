@@ -12,5 +12,5 @@ export class CreateAuthDto {
   password: string;
   status: string;
   verify: boolean;
-  roles: [];
+  roles: [string];
 }

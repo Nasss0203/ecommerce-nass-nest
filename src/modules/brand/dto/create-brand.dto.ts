@@ -1,1 +1,3 @@
-export class CreateBrandDto {}
+export class CreateBrandDto {
+  brand_name: string;
+}

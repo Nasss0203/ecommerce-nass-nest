@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import { Brand } from './schemas/brand.schema';
 
 @Injectable()
 export class BrandService {
-  create(createBrandDto: CreateBrandDto) {
-    return 'This action adds a new brand';
+  constructor(@InjectModel(Brand.name) private brandModel: Model<Brand>) {}
+  async create(createBrandDto: CreateBrandDto) {
+    const data = await this.brandModel.create({ ...createBrandDto });
+    return data;
   }
 
   findAll() {
