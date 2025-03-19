@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { compareSync } from 'bcrypt';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { Model } from 'mongoose';
 import { RoleAuth } from 'src/constants';
 import { convertToObjectIdMongodb } from 'src/utils';
@@ -54,8 +54,8 @@ export class AuthService {
     return `This action returns all auth`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
+  findOne(id: string) {
+    return this.authModel.findOne({ _id: id });
   }
 
   update(id: number, updateAuthDto: UpdateAuthDto) {
@@ -98,16 +98,18 @@ export class AuthService {
     };
     const access_token = this.jwtService.sign(payload);
     const refresh_token = this.createRefreshToken(payload);
+    console.log(' refresh_token~', refresh_token);
 
     if (!refresh_token) {
       throw new Error('Failed to generate refresh token');
     }
 
-    await this.tokenService.create({
+    const dataa = await this.tokenService.create({
       userId: convertToObjectIdMongodb(_id),
       refreshToken: refresh_token,
       refreshTokensUsed: [],
     });
+    console.log('dataa~', dataa);
 
     response.cookie('refresh_token', refresh_token, {
       httpOnly: true,
@@ -127,11 +129,77 @@ export class AuthService {
     };
   }
 
-  createRefreshToken = (payload) => {
+  createRefreshToken = (payload: any) => {
     const refreshToken = this.jwtService.sign(payload, {
       secret: this.configService.get<string>('JWT_REFRESH_TOKEN_SECRET'),
       expiresIn: this.configService.get<string>('JWT_REFRESH_TOKEN_EXPIRE'),
     });
     return refreshToken;
   };
+
+  async refreshToken(request: Request, response: Response) {
+    const refresh_token = request.cookies['refresh_token'];
+    console.log('refresh_token from cookie:', refresh_token);
+
+    if (!refresh_token) {
+      throw new HttpException(
+        'No refresh token provided',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    try {
+      const decoded = this.jwtService.verify(refresh_token, {
+        secret: this.configService.get<string>('JWT_REFRESH_TOKEN_SECRET'),
+      });
+      console.log('Decoded refresh token:', decoded);
+
+      const tokenDoc = await this.tokenService.findOne(refresh_token);
+      console.log('Token document:', tokenDoc);
+      if (!tokenDoc) {
+        throw new HttpException(
+          'Invalid refresh token',
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
+
+      const { _id, username, email, roles } = decoded;
+      const payload = { _id, username, email, roles };
+      console.log('Payload:', payload);
+
+      const newRefreshToken = this.createRefreshToken(payload);
+      console.log('New Refresh Token:', newRefreshToken);
+
+      await this.tokenService.update({
+        refreshToken: newRefreshToken,
+        refreshTokensUsed: refresh_token,
+      });
+
+      response.clearCookie('refresh_token');
+      response.cookie('refresh_token', newRefreshToken, {
+        httpOnly: true,
+        maxAge: 259200000,
+        path: '',
+      });
+
+      const newAccessToken = this.jwtService.sign(payload, {
+        secret: this.configService.get<string>('JWT_ACCESS_TOKEN_SECRET'),
+        expiresIn: this.configService.get<string>('JWT_ACCESS_EXPIRE') || '1h',
+      });
+
+      return {
+        _id,
+        username,
+        email,
+        roles,
+        tokens: {
+          access_token: newAccessToken,
+          refresh_token: newRefreshToken,
+        },
+      };
+    } catch (error) {
+      console.error('Error refreshing token:', error);
+      throw new HttpException('Invalid refresh token', HttpStatus.UNAUTHORIZED);
+    }
+  }
 }

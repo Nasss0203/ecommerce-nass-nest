@@ -15,9 +15,10 @@ export class TokensService {
     });
 
     if (findToken) {
-      return await this.updateRefreshToken(
-        createTokenDto.userId.toString(),
-        createTokenDto.refreshToken,
+      return await this.tokenModel.findOneAndUpdate(
+        { userId: createTokenDto.userId },
+        { refreshToken: createTokenDto.refreshToken },
+        { new: true },
       );
     } else {
       return await this.tokenModel.create(createTokenDto);
@@ -28,23 +29,31 @@ export class TokensService {
     return `This action returns all tokens`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} token`;
+  async findOne(refreshToken: string) {
+    return await this.tokenModel.findOne({ refreshToken: refreshToken });
   }
 
-  update(userId: string, updateTokenDto: UpdateTokenDto) {
-    return `This action updates a #${userId} token`;
+  async update(updateTokenDto: UpdateTokenDto) {
+    const { refreshToken, refreshTokensUsed } = updateTokenDto;
+    return await this.tokenModel.updateOne(
+      // { userId: userId },
+      {
+        $set: {
+          refreshToken: refreshToken,
+        },
+        $addToSet: {
+          refreshTokensUsed: refreshTokensUsed,
+        },
+      },
+    );
   }
+
+  async updateRefreshToken({
+    refreshToken,
+    refreshTokensUsed,
+  }: UpdateTokenDto) {}
 
   remove(id: number) {
     return `This action removes a #${id} token`;
-  }
-
-  async updateRefreshToken(userId: string, refreshToken: string) {
-    return await this.tokenModel.findOneAndUpdate(
-      { userId: userId },
-      { refreshToken: refreshToken, refreshTokensUsed: [] },
-      { upsert: true, new: true },
-    );
   }
 }

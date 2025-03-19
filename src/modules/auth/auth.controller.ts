@@ -10,9 +10,10 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { Response } from 'express';
-import { Public, ResponseMessage } from 'src/common/customize';
+import { Request, Response } from 'express';
+import { Auth, Public, ResponseMessage } from 'src/common/customize';
 import { LocalAuthGuard } from 'src/common/guards/local-auth.guard';
+import { IAuth } from './auth.interface';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
@@ -36,6 +37,22 @@ export class AuthController {
     return this.authService.login(req.user, response);
   }
 
+  @ResponseMessage('Get account')
+  @Get('account')
+  handleGetAccount(@Auth() auth: IAuth) {
+    return auth;
+  }
+
+  @Public()
+  @ResponseMessage('Refresh token')
+  @Post('refreshToken')
+  handleRefreshToken(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    return this.authService.refreshToken(request, response);
+  }
+
   @Get()
   findAll() {
     return this.authService.findAll();
@@ -43,7 +60,7 @@ export class AuthController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
+    return this.authService.findOne(id);
   }
 
   @Patch(':id')

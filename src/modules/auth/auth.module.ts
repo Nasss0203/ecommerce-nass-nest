@@ -28,5 +28,6 @@ import { Auth, AuthSchema } from './schemas/auth.schema';
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],
+  exports: [AuthService],
 })
 export class AuthModule {}
