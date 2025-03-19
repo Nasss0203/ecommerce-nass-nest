@@ -53,6 +53,15 @@ export class AuthController {
     return this.authService.refreshToken(request, response);
   }
 
+  @ResponseMessage('Logout account successfully')
+  @Post('logout')
+  handleLogout(
+    @Auth() auth: IAuth,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    return this.authService.logout(auth, response);
+  }
+
   @Get()
   findAll() {
     return this.authService.findAll();

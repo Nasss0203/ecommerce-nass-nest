@@ -202,4 +202,9 @@ export class AuthService {
       throw new HttpException('Invalid refresh token', HttpStatus.UNAUTHORIZED);
     }
   }
+
+  async logout(user: IAuth, response: Response) {
+    await this.tokenService.updateAuthToken('', user._id.toString());
+    response.clearCookie('refresh_token');
+  }
 }

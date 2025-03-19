@@ -48,10 +48,12 @@ export class TokensService {
     );
   }
 
-  async updateRefreshToken({
-    refreshToken,
-    refreshTokensUsed,
-  }: UpdateTokenDto) {}
+  async updateAuthToken(refreshToken: string, userId: string) {
+    return await this.tokenModel.updateOne(
+      { userId: userId },
+      { refreshToken: refreshToken },
+    );
+  }
 
   remove(id: number) {
     return `This action removes a #${id} token`;
