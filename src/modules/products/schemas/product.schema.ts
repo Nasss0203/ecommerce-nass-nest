@@ -20,7 +20,7 @@ export class Product extends Document {
   @Prop({ required: true })
   product_price: number;
 
-  @Prop({ default: [''] })
+  @Prop({ default: [] })
   product_images: [string];
 
   @Prop()

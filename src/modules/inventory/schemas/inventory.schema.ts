@@ -20,9 +20,9 @@ export class Inventory extends Document {
   inventory_stock: number;
 
   @Prop({ type: SchemaType.Types.ObjectId, ref: Auth.name })
-  inven_authId: SchemaType.Types.ObjectId;
+  inventory_authId: SchemaType.Types.ObjectId;
 
   @Prop({ default: [] })
-  inven_reservations: [];
+  inventory_reservations: [];
 }
 export const InventorySchema = SchemaFactory.createForClass(Inventory);

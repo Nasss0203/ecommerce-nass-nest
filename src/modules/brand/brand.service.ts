@@ -17,8 +17,8 @@ export class BrandService {
     return `This action returns all brand`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} brand`;
+  findOne(id: string) {
+    return this.brandModel.findOne({ _id: id });
   }
 
   update(id: number, updateBrandDto: UpdateBrandDto) {

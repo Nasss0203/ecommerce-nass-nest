@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateInventoryDto } from './dto/create-inventory.dto';
 import { UpdateInventoryDto } from './dto/update-inventory.dto';
+import { Inventory } from './schemas/inventory.schema';
 
 @Injectable()
 export class InventoryService {
+  constructor(
+    @InjectModel(Inventory.name) private inventoryModel: Model<Inventory>,
+  ) {}
+
   create(createInventoryDto: CreateInventoryDto) {
-    return 'This action adds a new inventory';
+    return this.inventoryModel.create(createInventoryDto);
   }
 
   findAll() {

@@ -12,5 +12,6 @@ import { Inventory, InventorySchema } from './schemas/inventory.schema';
   ],
   controllers: [InventoryController],
   providers: [InventoryService],
+  exports: [InventoryService],
 })
 export class InventoryModule {}
