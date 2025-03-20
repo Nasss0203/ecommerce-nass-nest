@@ -117,7 +117,7 @@ export class ProductsService {
     return pro;
   }
 
-  removeProduct(id: string, auth: IAuth) {
-    return this.productRepository.removeProduct({ product_id: id, auth });
+  async removeProduct(id: string, auth: IAuth) {
+    return await this.productRepository.removeProduct({ product_id: id, auth });
   }
 }

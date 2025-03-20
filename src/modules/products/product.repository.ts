@@ -201,6 +201,18 @@ export class ProductRepository {
     return pro;
   }
 
+  async removeProduct({
+    product_id,
+    auth,
+  }: {
+    product_id: string;
+    auth: IAuth;
+  }) {
+    return await this.productModel
+      .deleteOne(convertToObjectIdMongodb(product_id))
+      .lean();
+  }
+
   async queryProduct({
     limit = 10,
     sort,
@@ -251,17 +263,5 @@ export class ProductRepository {
       page,
       limit,
     };
-  }
-
-  async removeProduct({
-    product_id,
-    auth,
-  }: {
-    product_id: string;
-    auth: IAuth;
-  }) {
-    return await this.productModel
-      .deleteOne(convertToObjectIdMongodb(product_id))
-      .lean();
   }
 }
