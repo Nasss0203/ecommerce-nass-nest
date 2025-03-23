@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { convertToObjectIdMongodb } from 'src/utils';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './schemas/category.schema';
@@ -12,17 +13,26 @@ export class CategoryService {
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
-    // Check db category
     const data = await this.categoryModel.create({ ...createCategoryDto });
     return data;
   }
 
-  findAll() {
-    return `This action returns all category`;
+  async findAll({ limit = 10, page = 1 }: { limit?: number; page?: number }) {
+    const skip = (page - 1) * limit;
+
+    const data = await this.categoryModel
+      .find()
+      .select(['-__v', '-createdAt', '-updatedAt'])
+      .limit(limit)
+      .skip(skip)
+      .lean();
+    return data;
   }
 
   async findOne(id: string) {
-    return await this.categoryModel.findOne({ _id: id });
+    return await this.categoryModel.findOne({
+      _id: convertToObjectIdMongodb(id),
+    });
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {

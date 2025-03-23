@@ -7,12 +7,9 @@ export class FileService {
   constructor(@Inject('CLOUDINARY') private cloudinary: typeof Cloudinary) {}
 
   async uploadFileImageCloudinary({ path, folderName = 'product' }) {
-    console.log(' path~', path);
-    console.log(' folderName~', folderName);
     const result = await this.cloudinary.uploader.upload(path, {
       folder: folderName,
     });
-    console.log(' result~', result);
 
     return {
       image_url: result.secure_url,

@@ -6,8 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
-import { Public } from 'src/common/customize';
+import { Public, ResponseMessage } from 'src/common/customize';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -22,9 +23,14 @@ export class CategoryController {
     return this.categoryService.create(createCategoryDto);
   }
 
+  @Public()
+  @ResponseMessage('Get all category successfully')
   @Get()
-  findAll() {
-    return this.categoryService.findAll();
+  findAll(
+    @Query()
+    query: any,
+  ) {
+    return this.categoryService.findAll(query);
   }
 
   @Get(':id')

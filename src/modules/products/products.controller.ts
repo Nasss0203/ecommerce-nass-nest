@@ -52,7 +52,7 @@ export class ProductsController {
   ) {
     const { category, brand, limit, page } = queryParams;
 
-    const query: IQuery = {};
+    const query: Partial<IQuery> = {};
     if (category) query.category = category;
     if (brand) query.brand = brand;
 

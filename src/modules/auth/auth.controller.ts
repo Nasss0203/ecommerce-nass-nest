@@ -33,7 +33,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @ResponseMessage('Login successfully')
   @Post('login')
-  async login(@Req() req, @Res({ passthrough: true }) response: Response) {
+  async login(@Req() req: any, @Res({ passthrough: true }) response: Response) {
     return this.authService.login(req.user, response);
   }
 

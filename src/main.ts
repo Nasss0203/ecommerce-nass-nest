@@ -16,10 +16,13 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
   app.enableCors({
-    origin: '*',
+    origin: [
+      configService.get<string>('LOCALHOST_CLIENT_NEXT'),
+      configService.get<string>('LOCALHOST_CLIENT_REACT'),
+    ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
-    // optionsSuccessStatus: 204,
+    credentials: true,
   });
   app.use(cookieParser());
   app.setGlobalPrefix('api');

@@ -153,7 +153,15 @@ export class ProductRepository {
   }
 
   async findOneProduct(id: string) {
-    const product = await this.productModel.findOne({ _id: id });
+    const product = await this.productModel
+      .findOne({
+        _id: convertToObjectIdMongodb(id),
+      })
+      .populate({
+        path: 'product_brand',
+        select: '-__v -createdAt -updatedAt',
+      })
+      .lean();
     if (!product)
       throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
 
@@ -229,8 +237,9 @@ export class ProductRepository {
     select?: string[];
   }) {
     const skip = (page - 1) * limit;
-    const finalFilter = { ...filter, ...query };
+
     const { brand, category } = query;
+
     if (category) {
       try {
         filter.product_category = convertToObjectIdMongodb(category);
@@ -247,7 +256,9 @@ export class ProductRepository {
       }
     }
 
-    const products = await this.productModel
+    const finalFilter = { ...filter };
+
+    const data = await this.productModel
       .find(finalFilter)
       .limit(limit)
       .sort(sort)
@@ -258,7 +269,7 @@ export class ProductRepository {
     const total = await this.productModel.countDocuments(filter);
 
     return {
-      products,
+      data,
       total,
       page,
       limit,

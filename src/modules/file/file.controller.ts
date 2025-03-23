@@ -21,7 +21,7 @@ export class FileController {
   constructor(private readonly fileService: FileService) {}
 
   @Post('upload')
-  @ResponseMessage('Upload file')
+  @ResponseMessage('Upload file successfully')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
     @UploadedFile(
@@ -34,7 +34,7 @@ export class FileController {
           maxSize: 1024 * 1000,
         })
         .build({
-          errorHttpStatusCode: HttpStatus.BAD_GATEWAY,
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
         }),
     )
     file: Express.Multer.File,

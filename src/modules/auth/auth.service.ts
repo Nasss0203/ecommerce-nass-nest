@@ -98,7 +98,6 @@ export class AuthService {
     };
     const access_token = this.jwtService.sign(payload);
     const refresh_token = this.createRefreshToken(payload);
-    console.log(' refresh_token~', refresh_token);
 
     if (!refresh_token) {
       throw new Error('Failed to generate refresh token');
@@ -109,7 +108,6 @@ export class AuthService {
       refreshToken: refresh_token,
       refreshTokensUsed: [],
     });
-    console.log('dataa~', dataa);
 
     response.cookie('refresh_token', refresh_token, {
       httpOnly: true,
@@ -152,7 +150,6 @@ export class AuthService {
       const decoded = this.jwtService.verify(refresh_token, {
         secret: this.configService.get<string>('JWT_REFRESH_TOKEN_SECRET'),
       });
-      console.log('Decoded refresh token:', decoded);
 
       const tokenDoc = await this.tokenService.findOne(refresh_token);
       console.log('Token document:', tokenDoc);
@@ -165,10 +162,8 @@ export class AuthService {
 
       const { _id, username, email, roles } = decoded;
       const payload = { _id, username, email, roles };
-      console.log('Payload:', payload);
 
       const newRefreshToken = this.createRefreshToken(payload);
-      console.log('New Refresh Token:', newRefreshToken);
 
       await this.tokenService.update({
         refreshToken: newRefreshToken,

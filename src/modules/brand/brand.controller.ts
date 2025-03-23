@@ -6,8 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
-import { Public } from 'src/common/customize';
+import { Public, ResponseMessage } from 'src/common/customize';
 import { BrandService } from './brand.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
@@ -22,9 +23,14 @@ export class BrandController {
     return this.brandService.create(createBrandDto);
   }
 
+  @Public()
+  @ResponseMessage('Get all brand successfully')
   @Get()
-  findAll() {
-    return this.brandService.findAll();
+  findAll(
+    @Query()
+    query: any,
+  ) {
+    return this.brandService.findAll(query);
   }
 
   @Get(':id')
