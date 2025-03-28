@@ -157,10 +157,16 @@ export class ProductRepository {
       .findOne({
         _id: convertToObjectIdMongodb(id),
       })
-      .populate({
-        path: 'product_brand',
-        select: '-__v -createdAt -updatedAt',
-      })
+      .populate([
+        {
+          path: 'product_brand',
+          select: '-__v -createdAt -updatedAt',
+        },
+        {
+          path: 'product_category',
+          select: '-__v -createdAt -updatedAt',
+        },
+      ])
       .lean();
     if (!product)
       throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
@@ -263,10 +269,16 @@ export class ProductRepository {
       .limit(limit)
       .sort(sort)
       .skip(skip)
-      .populate({
-        path: 'product_brand',
-        select: '-__v -createdAt -updatedAt',
-      })
+      .populate([
+        {
+          path: 'product_brand',
+          select: '-__v -createdAt -updatedAt',
+        },
+        {
+          path: 'product_category',
+          select: '-__v -createdAt -updatedAt',
+        },
+      ])
       .select(select)
       .lean();
 
