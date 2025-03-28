@@ -6,8 +6,10 @@ export interface IQuery {
   product_auth?: IAuth;
   limit?: number;
   page?: number;
-  isDraft?: boolean;
-  isPublished?: boolean;
+  minPrice?: number;
+  maxPrice?: number;
   select?: string[];
   filter?: any;
+  isDraft?: boolean;
+  isPublished?: boolean;
 }

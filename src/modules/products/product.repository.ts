@@ -263,6 +263,10 @@ export class ProductRepository {
       .limit(limit)
       .sort(sort)
       .skip(skip)
+      .populate({
+        path: 'product_brand',
+        select: '-__v -createdAt -updatedAt',
+      })
       .select(select)
       .lean();
 

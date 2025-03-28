@@ -3,8 +3,9 @@ import { Document, HydratedDocument, Types } from 'mongoose';
 import { Category } from 'src/modules/category/schemas/category.schema';
 
 export type BrandDocument = HydratedDocument<Brand>;
+const COLLECTION_NAME = 'Brands';
 
-@Schema({ timestamps: true, collection: 'Brands' })
+@Schema({ timestamps: true, collection: COLLECTION_NAME })
 export class Brand extends Document {
   @Prop({ required: true, trim: true, unique: true })
   brand_name: string;

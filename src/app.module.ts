@@ -5,11 +5,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { BrandModule } from './modules/brand/brand.module';
+import { CartModule } from './modules/cart/cart.module';
 import { CategoryModule } from './modules/category/category.module';
+import { FileModule } from './modules/file/file.module';
 import { InventoryModule } from './modules/inventory/inventory.module';
 import { ProductsModule } from './modules/products/products.module';
 import { TokensModule } from './modules/tokens/tokens.module';
-import { FileModule } from './modules/file/file.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { FileModule } from './modules/file/file.module';
     InventoryModule,
     TokensModule,
     FileModule,
+    CartModule,
   ],
   controllers: [AppController],
   providers: [AppService],

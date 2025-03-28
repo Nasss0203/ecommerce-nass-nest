@@ -17,6 +17,6 @@ import { Product, ProductSchema } from './schemas/product.schema';
   ],
   controllers: [ProductsController],
   providers: [ProductsService, ProductRepository],
-  exports: [ProductRepository],
+  exports: [ProductRepository, ProductsService],
 })
 export class ProductsModule {}
