@@ -19,6 +19,7 @@ async function bootstrap() {
     origin: [
       configService.get<string>('LOCALHOST_CLIENT_NEXT'),
       configService.get<string>('LOCALHOST_CLIENT_REACT'),
+      configService.get<string>('LOCALHOST_CLIENT_DELOY'),
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
@@ -30,6 +31,7 @@ async function bootstrap() {
     type: VersioningType.URI,
     defaultVersion: ['1'],
   });
+
   await app.listen(configService.get<string>('PORT'));
 }
 bootstrap();

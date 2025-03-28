@@ -18,6 +18,11 @@ import { TokensModule } from './modules/tokens/tokens.module';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get<string>('MONGODB_URL'),
+        autoIndex: false, // Tắt auto index để giảm RAM
+        maxPoolSize: 5, // Giới hạn tối đa 5 kết nối để tiết kiệm RAM
+        minPoolSize: 1, // Duy trì 1 kết nối thay vì giữ nhiều kết nối
+        serverSelectionTimeoutMS: 5000, // Nếu không kết nối được sau 5s thì timeout
+        socketTimeoutMS: 45000, // Time
       }),
       inject: [ConfigService],
     }),
