@@ -33,6 +33,7 @@ export class AuthService {
     if (existingAuth) {
       throw new HttpException(
         'Auth already registered',
+
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -103,7 +104,7 @@ export class AuthService {
       throw new Error('Failed to generate refresh token');
     }
 
-    const dataa = await this.tokenService.create({
+    await this.tokenService.create({
       userId: convertToObjectIdMongodb(_id),
       refreshToken: refresh_token,
       refreshTokensUsed: [],

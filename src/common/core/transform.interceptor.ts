@@ -30,7 +30,7 @@ export class TransformInterceptor<T>
         message:
           this.reflector.get<string>(RESPONSE_MESSAGE, context.getHandler()) ||
           '',
-        data: data,
+        data: data || {},
       })),
     );
   }
