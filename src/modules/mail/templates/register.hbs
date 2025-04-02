@@ -1,0 +1,124 @@
+<html>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Order Confirmation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #1c1c1c;
+        padding: 20px;
+        color: #ffffff;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        color: #333;
+      }
+      .header {
+        text-align: center;
+        padding-bottom: 10px;
+      }
+      .header img {
+        width: 60px;
+      }
+      .header h1 {
+        font-size: 22px;
+        font-weight: bold;
+        color: #000;
+      }
+      .content {
+        font-size: 16px;
+        line-height: 1.6;
+        margin: 20px 0;
+      }
+      .order-details {
+        background: #f4f4f4;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+      }
+      .button {
+        display: inline-block;
+        background: #000;
+        color: #fff;
+        padding: 12px 20px;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 6px;
+        margin-top: 15px;
+      }
+      .footer {
+        margin-top: 20px;
+        font-size: 14px;
+        text-align: center;
+        color: #aaa;
+      }
+      .product {
+        display: flex;
+        align-items: center;
+        background: #ffffff;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 15px;
+      }
+      .product img {
+        width: 60px;
+        margin-right: 10px;
+      }
+      .product-details {
+        font-size: 14px;
+      }
+      @media (max-width: 600px) {
+        .container {
+          padding: 15px;
+        }
+        .product {
+          flex-direction: column;
+          text-align: center;
+        }
+        .product img {
+          margin-bottom: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='header'>
+        <img src='https://i.imgur.com/oI7D7wA.png' alt='Logo' />
+        <h1>Hi {{name}}, Thank you for your order!</h1>
+      </div>
+      <div class='content'>
+        <p>Your order is being processed and will be shipped soon.</p>
+        <div class='order-details'>
+          <p><strong>Order Number:</strong> #KL52344222</p>
+          <p><strong>Tracking Number:</strong> 3456789ASDFKLSADNEFJ212</p>
+          <p><strong>Delivery Address:</strong><br />Waterview Lane, Santa Fe
+            4019,<br />NM, New Mexico 87500, USA</p>
+        </div>
+        <div class='product'>
+          <img src='https://i.imgur.com/abcd123.png' alt='Product' />
+          <div class='product-details'>
+            <p><strong>FLASH SMART WATCH – SERIES 2</strong></p>
+            <p>Quantity: 1</p>
+          </div>
+        </div>
+        <p><a href='#' class='button'>Track Your Order</a></p>
+      </div>
+      <div class='footer'>
+        <p>Want updates through more platforms?</p>
+        <p>409 Waterview Lane, Santa Fe, NM, New Mexico 87500</p>
+        <p><a href='#'>Unsubscribe</a>
+          •
+          <a href='#'>Privacy Policy</a>
+          •
+          <a href='#'>Contact Us</a></p>
+      </div>
+    </div>
+  </body>
+</html>

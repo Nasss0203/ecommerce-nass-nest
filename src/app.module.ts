@@ -7,9 +7,14 @@ import { AuthModule } from './modules/auth/auth.module';
 import { BrandModule } from './modules/brand/brand.module';
 import { CartModule } from './modules/cart/cart.module';
 import { CategoryModule } from './modules/category/category.module';
+import { CheckoutModule } from './modules/checkout/checkout.module';
+import { DiscountModule } from './modules/discount/discount.module';
 import { FileModule } from './modules/file/file.module';
 import { InventoryModule } from './modules/inventory/inventory.module';
+import { MailModule } from './modules/mail/mail.module';
+import { OrderModule } from './modules/order/order.module';
 import { ProductsModule } from './modules/products/products.module';
+import { RevenueModule } from './modules/revenue/revenue.module';
 import { TokensModule } from './modules/tokens/tokens.module';
 
 @Module({
@@ -18,11 +23,11 @@ import { TokensModule } from './modules/tokens/tokens.module';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get<string>('MONGODB_URL'),
-        autoIndex: false, // Tắt auto index để giảm RAM
-        maxPoolSize: 5, // Giới hạn tối đa 5 kết nối để tiết kiệm RAM
-        minPoolSize: 1, // Duy trì 1 kết nối thay vì giữ nhiều kết nối
-        serverSelectionTimeoutMS: 5000, // Nếu không kết nối được sau 5s thì timeout
-        socketTimeoutMS: 45000, // Time
+        autoIndex: false,
+        maxPoolSize: 5,
+        minPoolSize: 1,
+        serverSelectionTimeoutMS: 5000,
+        socketTimeoutMS: 45000,
       }),
       inject: [ConfigService],
     }),
@@ -37,6 +42,11 @@ import { TokensModule } from './modules/tokens/tokens.module';
     TokensModule,
     FileModule,
     CartModule,
+    CheckoutModule,
+    DiscountModule,
+    OrderModule,
+    RevenueModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
