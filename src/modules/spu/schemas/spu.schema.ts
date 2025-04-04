@@ -3,11 +3,14 @@ import { Document, HydratedDocument, Schema as SchemaTypes } from 'mongoose';
 import { Brand } from 'src/modules/brand/schemas/brand.schema';
 import { Category } from 'src/modules/category/schemas/category.schema';
 
-export type ProductDocument = HydratedDocument<Product>;
-const COLLECTION_NAME = 'Products';
+export type SpuDocument = HydratedDocument<Spu>;
+const COLLECTION_NAME = 'Spu';
 
 @Schema({ timestamps: true, collection: COLLECTION_NAME })
-export class Product extends Document {
+export class Spu extends Document {
+  @Prop({ default: '' })
+  product_id: string;
+
   @Prop({ required: true })
   product_name: string;
 
@@ -52,14 +55,17 @@ export class Product extends Document {
   })
   product_ratingAverage: number;
   @Prop({ default: [] })
-  product_varations: any[];
+  product_variations: [];
 
   @Prop({ default: true, index: true, select: false })
   isDraft: boolean;
 
   @Prop({ default: false, index: true, select: false })
   isPublished: boolean;
+
+  @Prop({ default: false })
+  isDeleted: boolean;
 }
 
-export const ProductSchema = SchemaFactory.createForClass(Product);
-ProductSchema.index({ product_name: 'text', product_description: 'text' });
+export const SpuSchema = SchemaFactory.createForClass(Spu);
+SpuSchema.index({ product_name: 'text', product_description: 'text' });
