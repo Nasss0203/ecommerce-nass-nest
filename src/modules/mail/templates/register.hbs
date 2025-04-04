@@ -1,123 +1,93 @@
-<html>
+<html lang='en'>
   <head>
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-    <title>Order Confirmation</title>
+    <title>Registration Successful</title>
     <style>
       body {
         font-family: Arial, sans-serif;
-        background-color: #1c1c1c;
-        padding: 20px;
-        color: #ffffff;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
       }
-      .container {
+      .email-container {
         max-width: 600px;
-        margin: 0 auto;
-        background: #ffffff;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        color: #333;
+        margin: 20px auto;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
       .header {
         text-align: center;
-        padding-bottom: 10px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px 10px 0 0;
       }
-      .header img {
-        width: 60px;
-      }
-      .header h1 {
-        font-size: 22px;
-        font-weight: bold;
-        color: #000;
+      .logo {
+        max-width: 150px;
+        height: auto;
       }
       .content {
-        font-size: 16px;
-        line-height: 1.6;
-        margin: 20px 0;
-      }
-      .order-details {
-        background: #f4f4f4;
-        padding: 15px;
-        border-radius: 8px;
-        margin-top: 15px;
+        padding: 30px;
+        color: #333333;
       }
       .button {
         display: inline-block;
-        background: #000;
-        color: #fff;
-        padding: 12px 20px;
+        padding: 12px 24px;
+        background-color: #007bff;
+        color: #ffffff;
         text-decoration: none;
-        font-weight: bold;
-        border-radius: 6px;
-        margin-top: 15px;
+        border-radius: 5px;
+        margin: 20px 0;
       }
       .footer {
-        margin-top: 20px;
-        font-size: 14px;
         text-align: center;
-        color: #aaa;
+        padding: 20px;
+        color: #666666;
+        font-size: 12px;
+        background-color: #f8f9fa;
+        border-radius: 0 0 10px 10px;
       }
-      .product {
-        display: flex;
-        align-items: center;
-        background: #ffffff;
-        padding: 10px;
-        border-radius: 8px;
-        margin-top: 15px;
+      .social-links {
+        margin: 20px 0;
       }
-      .product img {
-        width: 60px;
-        margin-right: 10px;
-      }
-      .product-details {
-        font-size: 14px;
-      }
-      @media (max-width: 600px) {
-        .container {
-          padding: 15px;
-        }
-        .product {
-          flex-direction: column;
-          text-align: center;
-        }
-        .product img {
-          margin-bottom: 10px;
-        }
+      .social-links a {
+        margin: 0 10px;
+        color: #007bff;
+        text-decoration: none;
       }
     </style>
   </head>
   <body>
-    <div class='container'>
+    <div class='email-container'>
       <div class='header'>
-        <img src='https://i.imgur.com/oI7D7wA.png' alt='Logo' />
-        <h1>Hi {{name}}, Thank you for your order!</h1>
+        <img
+          src='https://res.cloudinary.com/shopnass/image/upload/h_600,w_700/v1/product/x4qw8fb2yv68mdkxqlsk.jpg?_a=BAMAJaLR0'
+          alt='Company Logo'
+          class='logo'
+        />
       </div>
       <div class='content'>
-        <p>Your order is being processed and will be shipped soon.</p>
-        <div class='order-details'>
-          <p><strong>Order Number:</strong> #KL52344222</p>
-          <p><strong>Tracking Number:</strong> 3456789ASDFKLSADNEFJ212</p>
-          <p><strong>Delivery Address:</strong><br />Waterview Lane, Santa Fe
-            4019,<br />NM, New Mexico 87500, USA</p>
+        <h2>Welcome to Our Platform!</h2>
+        <p>Dear {{name}},</p>
+        <p>Thank you for registering with us. Your account has been successfully
+          created!</p>
+        <p>You can now access all our features and services. Click the button
+          below to get started:</p>
+        <a href='#' class='button'>Get Started</a>
+        <p>If you have any questions or need assistance, please don't hesitate
+          to contact our support team.</p>
+        <div class='social-links'>
+          <a href='#'>Facebook</a>
+          <a href='#'>Twitter</a>
+          <a href='#'>Instagram</a>
         </div>
-        <div class='product'>
-          <img src='https://i.imgur.com/abcd123.png' alt='Product' />
-          <div class='product-details'>
-            <p><strong>FLASH SMART WATCH – SERIES 2</strong></p>
-            <p>Quantity: 1</p>
-          </div>
-        </div>
-        <p><a href='#' class='button'>Track Your Order</a></p>
       </div>
       <div class='footer'>
-        <p>Want updates through more platforms?</p>
-        <p>409 Waterview Lane, Santa Fe, NM, New Mexico 87500</p>
-        <p><a href='#'>Unsubscribe</a>
-          •
-          <a href='#'>Privacy Policy</a>
-          •
-          <a href='#'>Contact Us</a></p>
+        <p>© 2024 Your Company Name. All rights reserved.</p>
+        <p>Address: Your Company Address</p>
+        <p>You received this email because you signed up for our service.</p>
       </div>
     </div>
   </body>

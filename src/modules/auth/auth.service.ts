@@ -5,8 +5,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { compareSync } from 'bcrypt';
 import { Request, Response } from 'express';
 import { Model } from 'mongoose';
-import { RoleAuth } from 'src/constants';
+import { RoleAuth, TEMPLATES } from 'src/constants';
 import { convertToObjectIdMongodb } from 'src/utils';
+import { MailService } from '../mail/mail.service';
 import { Token } from '../tokens/schemas/token.schema';
 import { TokensService } from '../tokens/tokens.service';
 import { IAuth } from './auth.interface';
@@ -23,6 +24,7 @@ export class AuthService {
     private tokenService: TokensService,
     private jwtService: JwtService,
     private configService: ConfigService,
+    private mailService: MailService,
   ) {}
 
   async create(createAuthDto: CreateAuthDto) {
@@ -33,7 +35,6 @@ export class AuthService {
     if (existingAuth) {
       throw new HttpException(
         'Auth already registered',
-
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -45,6 +46,14 @@ export class AuthService {
       password: hashPassword,
       roles: [RoleAuth.ADMIN],
     });
+
+    if (auth) {
+      await this.mailService.sendEmail({
+        template: TEMPLATES.REGISTER,
+        email: auth.email,
+        name: auth.username,
+      });
+    }
 
     const { _id, username, email, verify, roles } = auth;
 

@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from 'src/common/strategy/jwt.strategy';
 import { LocalStrategy } from 'src/common/strategy/local.strategy';
+import { MailModule } from '../mail/mail.module';
 import { TokensModule } from '../tokens/tokens.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -25,6 +26,7 @@ import { Auth, AuthSchema } from './schemas/auth.schema';
     }),
     PassportModule,
     TokensModule,
+    MailModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],

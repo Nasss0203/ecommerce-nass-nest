@@ -8,7 +8,6 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { Public, ResponseMessage } from 'src/common/customize';
 import { CreateMailDto } from './dto/create-mail.dto';
 import { UpdateMailDto } from './dto/update-mail.dto';
 import { MailService } from './mail.service';
@@ -20,21 +19,13 @@ export class MailController {
     private mailerService: MailerService,
   ) {}
 
-  @Get()
-  @Public()
-  @ResponseMessage('Test email')
-  async handleTestEmail() {
-    const data = await this.mailerService.sendMail({
-      to: 'anhnamnguyen020303@gmail.com',
-      from: '"Support Team" <ciekoolnn458@gmail.com>', // override default from
-      subject: 'Welcome to Nice App! Confirm your Email',
-      template: 'register',
-      context: {
-        name: 'Nass',
-      },
-    });
-    return data;
-  }
+  // @Get()
+  // @Public()
+  // @ResponseMessage('Test email')
+  // async handleTestEmail() {
+  //   const data = await this.mailService.sendEmail({})
+  //   return data;
+  // }
 
   @Post()
   create(@Body() createMailDto: CreateMailDto) {

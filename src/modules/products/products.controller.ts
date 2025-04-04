@@ -9,7 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { Auth, Public, ResponseMessage } from 'src/common/customize';
-import { IQuery } from 'src/types';
+import { IQuery } from 'src/interfaces';
 import { IAuth } from '../auth/auth.interface';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';

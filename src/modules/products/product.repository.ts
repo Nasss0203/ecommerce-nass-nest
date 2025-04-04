@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IQuery } from 'src/types';
+import { IQuery } from 'src/interfaces';
 import { convertToObjectIdMongodb } from 'src/utils';
 import { IAuth } from '../auth/auth.interface';
 import { BrandService } from '../brand/brand.service';

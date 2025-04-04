@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IQuery } from 'src/types';
+import { IQuery } from 'src/interfaces';
 import { IAuth } from '../auth/auth.interface';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
