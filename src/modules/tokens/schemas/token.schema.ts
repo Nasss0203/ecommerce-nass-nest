@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as SchemaType } from 'mongoose';
+import { Document, HydratedDocument, Schema as SchemaType } from 'mongoose';
 
+export type TokenDocument = HydratedDocument<Token>;
 const COLLECTION = 'Tokens';
 @Schema({ timestamps: true, collection: COLLECTION })
 export class Token extends Document {

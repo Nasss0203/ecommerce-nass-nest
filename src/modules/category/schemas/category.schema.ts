@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument } from 'mongoose';
 
-export type AuthDocument = HydratedDocument<Category>;
+export type CategoryDocument = HydratedDocument<Category>;
 
 const COLLECTION_NAME = 'Categories';
 @Schema({ timestamps: true, collection: COLLECTION_NAME })
