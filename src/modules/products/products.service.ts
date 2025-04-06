@@ -67,12 +67,16 @@ export class ProductsService {
     limit?: number;
     page?: number;
   }) {
-    const query: IQuery = { product_auth, isPublished: true };
+    const query = { product_auth };
+    const filter = { isPublished: true };
+    console.log(' query~', query);
+    console.log(' filter~', filter);
 
     const product = await this.productRepository.findAllProductPublish({
       limit,
       page,
       query,
+      filter,
     });
     return product;
   }
@@ -86,11 +90,12 @@ export class ProductsService {
     limit?: number;
     page?: number;
   }) {
-    const query: IQuery = { product_auth, isDraft: true };
-
+    const query = { product_auth };
+    const filter = { isDraft: true };
     const product = await this.productRepository.findAllProductDraft({
       limit,
       page,
+      filter,
       query,
     });
     return product;

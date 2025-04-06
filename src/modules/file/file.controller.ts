@@ -9,9 +9,10 @@ import {
   Patch,
   Post,
   UploadedFile,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { ResponseMessage } from 'src/common/customize';
 import { UpdateFileDto } from './dto/update-file.dto';
 import { FileService } from './file.service';
@@ -41,6 +42,30 @@ export class FileController {
   ) {
     return await this.fileService.uploadFileImageCloudinary({
       path: file.path,
+    });
+  }
+
+  @Post('upload-multi')
+  @ResponseMessage('Upload multi file successfully')
+  @UseInterceptors(FilesInterceptor('files', 20))
+  async uploadFileMulti(
+    @UploadedFiles(
+      new ParseFilePipeBuilder()
+        .addFileTypeValidator({
+          fileType:
+            /^(image\/(jpeg|png|gif)|text\/plain|application\/(pdf|msword|vnd\.openxmlformats-officedocument\.wordprocessingml\.document))$/i,
+        })
+        .addMaxSizeValidator({
+          maxSize: 1024 * 1000,
+        })
+        .build({
+          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        }),
+    )
+    files: Express.Multer.File[],
+  ) {
+    return await this.fileService.uploadMultiFileImageCloudinary({
+      images: files.map((file) => file.path),
     });
   }
 

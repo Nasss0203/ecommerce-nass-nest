@@ -61,7 +61,7 @@ export class ProductRepository {
   }) {
     const productId = await this.productModel.findOne({
       _id: convertToObjectIdMongodb(product_id),
-      product_auth,
+      // product_auth,
     });
 
     if (!productId)
@@ -82,20 +82,20 @@ export class ProductRepository {
     product_id: string;
     product_auth: IAuth;
   }) {
-    const productId = await this.productModel.findOne({
+    const product = await this.productModel.findOne({
       _id: convertToObjectIdMongodb(product_id),
-      product_auth,
+      // product_auth,
     });
 
-    if (!productId)
+    if (!product)
       throw new HttpException(
         'Product not found | unPulishProduct',
         HttpStatus.NOT_FOUND,
       );
-    productId.isDraft = true;
-    productId.isPublished = false;
+    product.isDraft = true;
+    product.isPublished = false;
 
-    return await productId.updateOne(productId);
+    return await product.updateOne(product);
   }
 
   async findAllProduct({
@@ -123,31 +123,37 @@ export class ProductRepository {
   async findAllProductPublish({
     limit = 10,
     page = 1,
+    filter,
     query,
   }: {
     limit?: number;
     page?: number;
-    query?: IQuery;
+    filter?: { isPublished: boolean };
+    query?: any;
   }) {
     return await this.queryProduct({
       limit,
       page,
       query,
+      filter,
     });
   }
 
   async findAllProductDraft({
     limit = 10,
     page = 1,
+    filter,
     query,
   }: {
     limit?: number;
     page?: number;
-    query?: IQuery;
+    filter?: { isDraft: boolean };
+    query?: any;
   }) {
     return await this.queryProduct({
       limit,
       page,
+      filter,
       query,
     });
   }
@@ -261,7 +267,6 @@ export class ProductRepository {
         throw new HttpException('Invalid brand ID', HttpStatus.BAD_REQUEST);
       }
     }
-
     const finalFilter = { ...filter };
 
     const data = await this.productModel

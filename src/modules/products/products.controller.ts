@@ -35,8 +35,8 @@ export class ProductsController {
   }
 
   @ResponseMessage('Published product successfully')
-  @Post('unPublish/:id')
-  unPublishProduct(@Auth() auth: IAuth, @Param() productId: string) {
+  @Post('unpublish/:id')
+  unPublishProduct(@Auth() auth: IAuth, @Param('id') productId: string) {
     return this.productsService.unPublishProduct({
       product_id: productId,
       product_auth: auth,

@@ -3,7 +3,7 @@ import { Document, HydratedDocument, Schema as SchemaTypes } from 'mongoose';
 import { Brand } from 'src/modules/brand/schemas/brand.schema';
 import { Category } from 'src/modules/category/schemas/category.schema';
 
-export type AuthDocument = HydratedDocument<Product>;
+export type ProductDocument = HydratedDocument<Product>;
 const COLLECTION_NAME = 'Products';
 
 @Schema({ timestamps: true, collection: COLLECTION_NAME })
@@ -52,7 +52,7 @@ export class Product extends Document {
   })
   product_ratingAverage: number;
   @Prop({ default: [] })
-  product_varations: any[];
+  product_variations: any[];
 
   @Prop({ default: true, index: true, select: false })
   isDraft: boolean;

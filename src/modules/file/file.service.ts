@@ -21,6 +21,25 @@ export class FileService {
     };
   }
 
+  async uploadMultiFileImageCloudinary({ images, folderName = 'product' }) {
+    const results = [];
+    for (const image in images) {
+      const result = await this.cloudinary.uploader.upload(images[image], {
+        folder: folderName,
+      });
+
+      results.push({
+        image_url: result.secure_url,
+        thumb_url: await this.cloudinary.url(result.public_id, {
+          height: 600,
+          width: 700,
+          format: 'jpg',
+        }),
+      });
+    }
+    return results;
+  }
+
   findAll() {
     return `This action returns all file`;
   }

@@ -25,7 +25,7 @@ export class CreateProductDto {
 
   product_ratingAverage: number;
 
-  product_varations: any[];
+  product_variations: any[];
 
   isDraft: boolean;
 
