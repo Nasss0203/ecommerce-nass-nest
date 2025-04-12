@@ -29,6 +29,10 @@ export class BrandService {
     const data = await this.brandModel
       .find({ categories: categoryId })
       .select(['-__v', '-createdAt', '-updatedAt'])
+      .populate({
+        path: 'products',
+        match: { isPublished: true },
+      })
       .lean();
 
     return data;

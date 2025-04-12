@@ -1,19 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCheckoutDto } from './dto/create-checkout.dto';
 import { UpdateCheckoutDto } from './dto/update-checkout.dto';
+import { CheckoutRepository } from './repo/checkout.repository';
 
 @Injectable()
 export class CheckoutService {
-  create(createCheckoutDto: CreateCheckoutDto) {
-    return 'This action adds a new checkout';
+  constructor(private readonly checkoutRepository: CheckoutRepository) {}
+
+  create({ cartId, order_ids, userId }) {
+    return this.checkoutRepository.reviewCheckout({
+      cartId,
+      order_ids,
+      userId,
+    });
   }
 
   findAll() {
     return `This action returns all checkout`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} checkout`;
+  findOne(id: string) {
+    return this.checkoutRepository.findOneCheckout(id);
   }
 
   update(id: number, updateCheckoutDto: UpdateCheckoutDto) {

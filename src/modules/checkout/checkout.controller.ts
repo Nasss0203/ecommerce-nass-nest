@@ -1,15 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+} from '@nestjs/common';
+import { Request } from 'express';
+import { ResponseMessage } from 'src/common/customize';
 import { CheckoutService } from './checkout.service';
-import { CreateCheckoutDto } from './dto/create-checkout.dto';
 import { UpdateCheckoutDto } from './dto/update-checkout.dto';
 
 @Controller('checkout')
 export class CheckoutController {
   constructor(private readonly checkoutService: CheckoutService) {}
 
-  @Post()
-  create(@Body() createCheckoutDto: CreateCheckoutDto) {
-    return this.checkoutService.create(createCheckoutDto);
+  @Post('review')
+  @ResponseMessage('Checkout successfully')
+  create(@Req() req: Request) {
+    console.log(' req~', req.body);
+    return this.checkoutService.create(req.body);
   }
 
   @Get()
@@ -19,11 +31,14 @@ export class CheckoutController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.checkoutService.findOne(+id);
+    return this.checkoutService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCheckoutDto: UpdateCheckoutDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateCheckoutDto: UpdateCheckoutDto,
+  ) {
     return this.checkoutService.update(+id, updateCheckoutDto);
   }
 

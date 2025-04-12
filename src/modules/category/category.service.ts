@@ -23,9 +23,14 @@ export class CategoryService {
     const data = await this.categoryModel
       .find()
       .select(['-__v', '-createdAt', '-updatedAt'])
+      .populate({
+        path: 'products',
+        match: { isPublished: true },
+      })
       .limit(limit)
       .skip(skip)
       .lean();
+
     return data;
   }
 

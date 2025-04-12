@@ -2,14 +2,14 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IQuery } from 'src/interfaces';
+import { IAuth } from 'src/modules/auth/auth.interface';
+import { BrandService } from 'src/modules/brand/brand.service';
+import { CategoryService } from 'src/modules/category/category.service';
+import { InventoryService } from 'src/modules/inventory/inventory.service';
 import { convertToObjectIdMongodb } from 'src/utils';
-import { IAuth } from '../auth/auth.interface';
-import { BrandService } from '../brand/brand.service';
-import { CategoryService } from '../category/category.service';
-import { InventoryService } from '../inventory/inventory.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
-import { Product } from './schemas/product.schema';
+import { CreateProductDto } from '../dto/create-product.dto';
+import { UpdateProductDto } from '../dto/update-product.dto';
+import { Product } from '../schemas/product.schema';
 
 @Injectable()
 export class ProductRepository {
@@ -295,5 +295,52 @@ export class ProductRepository {
       page,
       limit,
     };
+  }
+
+  async getArrayProduct(productId: any) {
+    return await this.productModel
+      .find({ _id: { $in: productId.map(convertToObjectIdMongodb) } })
+      .lean();
+  }
+
+  async checkProduct(products: any, cart: any) {
+    const productIds = products.map((product) => product.productId);
+
+    const foundProducts = await this.getArrayProduct(productIds);
+
+    const productMap = new Map(
+      foundProducts.map((product) => [product._id.toString(), product]),
+    );
+
+    return products
+      .map((product) => {
+        const foundCartItems = cart.cart_products.filter(
+          (item) => item.productId.toString() === product.productId.toString(),
+        );
+
+        if (foundCartItems.length > 0) {
+          const foundProduct = productMap.get(product.productId.toString());
+
+          if (foundProduct) {
+            const totalQuantity = foundCartItems.reduce(
+              (sum, item) => sum + item.quantity,
+              0,
+            );
+            const totalPrice = foundCartItems.reduce(
+              (sum, item) => sum + item.quantity * item.price,
+              0,
+            );
+
+            return {
+              price: totalPrice / totalQuantity,
+              quantity: totalQuantity,
+              productId: foundCartItems[0].productId,
+              product_price: foundProduct.product_price,
+              product_quantity: foundProduct.product_quantity,
+            };
+          }
+        }
+      })
+      .filter((item) => item !== undefined);
   }
 }

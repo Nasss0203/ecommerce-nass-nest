@@ -127,9 +127,12 @@ export class CartService {
     return `This action returns all cart`;
   }
 
-  findCart({ userId }: { userId: string }) {
-    return this.cartModel
-      .findOne({ cart_userId: convertToObjectIdMongodb(userId) })
+  async findCart(userId: string) {
+    return await this.cartModel
+      .findOne({
+        cart_userId: convertToObjectIdMongodb(userId),
+        cart_state: 'active',
+      })
       .lean();
   }
 

@@ -15,7 +15,7 @@ export class CartController {
   @Get()
   @ResponseMessage('Get list cart')
   findAll(@Auth() auth: IAuth) {
-    return this.cartService.findCart({ userId: auth._id });
+    return this.cartService.findCart(auth._id);
   }
 
   @Get(':id')

@@ -3,7 +3,7 @@ import { IQuery } from 'src/interfaces';
 import { IAuth } from '../auth/auth.interface';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ProductRepository } from './product.repository';
+import { ProductRepository } from './repo/product.repository';
 
 @Injectable()
 export class ProductsService {
