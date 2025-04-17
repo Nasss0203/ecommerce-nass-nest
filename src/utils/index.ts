@@ -13,3 +13,6 @@ export const generateOrderTrackingCode = () => {
 
   return `${prefix}${paddedNumber}`;
 };
+export const randomProductId = () => {
+  return Math.floor(Math.random() * 89999 + 100000);
+};
