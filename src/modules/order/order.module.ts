@@ -1,14 +1,29 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from '../auth/auth.module';
+import { CartModule } from '../cart/cart.module';
+import { Cart, CartSchema } from '../cart/schemas/cart.schema';
+import { CheckoutModule } from '../checkout/checkout.module';
+import { Checkout, CheckoutSchema } from '../checkout/schemas/checkout.schema';
+import { MailModule } from '../mail/mail.module';
 import { OrderController } from './order.controller';
 import { OrderService } from './order.service';
+import { OrderRepository } from './repo/order.repository';
 import { Order, OrderSchema } from './schemas/order.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Order.name, schema: OrderSchema }]),
+    MongooseModule.forFeature([
+      { name: Order.name, schema: OrderSchema },
+      { name: Checkout.name, schema: CheckoutSchema },
+      { name: Cart.name, schema: CartSchema },
+    ]),
+    CheckoutModule,
+    AuthModule,
+    CartModule,
+    MailModule,
   ],
   controllers: [OrderController],
-  providers: [OrderService],
+  providers: [OrderService, OrderRepository],
 })
 export class OrderModule {}

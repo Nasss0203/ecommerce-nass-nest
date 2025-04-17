@@ -68,6 +68,7 @@ export class AuthController {
   }
 
   @Get(':id')
+  @ResponseMessage('Find one auth')
   findOne(@Param('id') id: string) {
     return this.authService.findOne(id);
   }

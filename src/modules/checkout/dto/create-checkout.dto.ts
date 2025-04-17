@@ -3,7 +3,9 @@ import { Types } from 'mongoose';
 export class CheckoutProductItemDto {
   productId: Types.ObjectId;
   quantity: number;
+  thumb: string;
   price: number;
+  name: string;
   discount: number;
   totalPrice: number;
 }

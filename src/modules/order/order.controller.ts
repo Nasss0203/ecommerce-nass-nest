@@ -1,25 +1,39 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { OrderService } from './order.service';
-import { CreateOrderDto } from './dto/create-order.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+} from '@nestjs/common';
+import { Request } from 'express';
+import { Auth, ResponseMessage } from 'src/common/customize';
+import { IAuth } from '../auth/auth.interface';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { OrderService } from './order.service';
 
 @Controller('order')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(createOrderDto);
+  @Post('create')
+  @ResponseMessage('Create order successfully')
+  create(@Req() req: Request) {
+    return this.orderService.createOrderByUser(req.body);
   }
 
-  @Get()
-  findAll() {
-    return this.orderService.findAll();
+  @Get('all')
+  @ResponseMessage('Get all order by user')
+  findAll(@Auth() auth: IAuth) {
+    return this.orderService.findAll(auth._id);
   }
 
   @Get(':id')
+  @ResponseMessage('Get one order by user')
   findOne(@Param('id') id: string) {
-    return this.orderService.findOne(+id);
+    return this.orderService.findOne(id);
   }
 
   @Patch(':id')

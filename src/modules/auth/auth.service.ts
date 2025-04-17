@@ -65,7 +65,9 @@ export class AuthService {
   }
 
   findOne(id: string) {
-    return this.authModel.findOne({ _id: id });
+    return this.authModel
+      .findOne({ _id: id })
+      .select('-__v -password -verify -status -createdAt -updatedAt');
   }
 
   update(id: number, updateAuthDto: UpdateAuthDto) {

@@ -20,7 +20,6 @@ export class CheckoutRepository {
   ) {}
 
   createCheckout(createCheckoutDto: CreateCheckoutDto) {
-    console.log(' createCheckoutDto~', createCheckoutDto);
     return this.checkoutModel.create(createCheckoutDto);
   }
 
@@ -49,7 +48,6 @@ export class CheckoutRepository {
     };
 
     const order_ids_input = order_ids;
-
     const checkoutItems = [];
 
     for (let i = 0; i < order_ids_input.length; i++) {
@@ -88,7 +86,9 @@ export class CheckoutRepository {
         return item.item_products.map((product: CheckoutProductItemDto) => ({
           productId: product.productId,
           quantity: product.quantity,
+          image: product.thumb,
           price: product.price,
+          name: product.name,
           discount:
             (item.priceRaw - item.priceApplyCheckout) /
             item.item_products.length,

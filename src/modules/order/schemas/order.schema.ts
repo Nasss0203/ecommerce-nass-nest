@@ -1,10 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument, Types } from 'mongoose';
 import { Product } from 'src/modules/products/schemas/product.schema';
+import { generateOrderTrackingCode } from 'src/utils';
 
 export type OrderDocument = HydratedDocument<Order>;
 
-class OrderCheckout extends Document {
+export class OrderCheckout extends Document {
   @Prop({ required: true })
   totalPrice: number;
 
@@ -13,20 +14,23 @@ class OrderCheckout extends Document {
 
   @Prop({ default: 0 })
   feeShip: number;
+
+  @Prop({ default: 0 })
+  grandTotal: number;
 }
 
-class OrderShipping {
+export class OrderShipping {
   @Prop({ required: true })
   street: string;
-
+  @Prop({ required: true })
+  ward: string;
+  @Prop({ required: true })
+  district: string;
   @Prop({ required: true })
   city: string;
-
-  @Prop({ required: true })
-  country: string;
 }
 
-class OrderPayment extends Document {
+export class OrderPayment extends Document {
   @Prop({ required: false })
   method: string;
 
@@ -34,7 +38,7 @@ class OrderPayment extends Document {
   status: string;
 }
 
-class OrderProducts extends Document {
+export class OrderProducts extends Document {
   @Prop({ ref: Product.name, type: Types.ObjectId, required: true })
   productId: Types.ObjectId;
 
@@ -71,7 +75,7 @@ export class Order extends Document {
   @Prop()
   order_products: [OrderProducts];
 
-  @Prop({ default: '#0000131052024' })
+  @Prop({ default: generateOrderTrackingCode })
   order_tracking: string;
 
   @Prop({

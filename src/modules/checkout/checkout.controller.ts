@@ -30,6 +30,7 @@ export class CheckoutController {
   }
 
   @Get(':id')
+  @ResponseMessage('Get one checkout')
   findOne(@Param('id') id: string) {
     return this.checkoutService.findOne(id);
   }

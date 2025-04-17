@@ -336,6 +336,8 @@ export class ProductRepository {
               quantity: totalQuantity,
               productId: foundCartItems[0].productId,
               product_price: foundProduct.product_price,
+              thumb: foundProduct.product_thumb,
+              name: foundProduct.product_name,
               product_quantity: foundProduct.product_quantity,
             };
           }

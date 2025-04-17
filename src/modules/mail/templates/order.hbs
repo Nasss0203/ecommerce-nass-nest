@@ -1,0 +1,248 @@
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <title>Order Confirmation</title>
+    <style>
+      /* Bạn có thể đặt CSS tối thiểu để tránh bị các mail client chặn.
+       Hoặc chuyển sang inline style, tuỳ vào chiến lược gửi mail của bạn. */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        -webkit-font-smoothing: antialiased;
+      }
+      .email-container {
+        width: 100%;
+        background-color: #f4f4f4;
+        padding: 20px 0;
+      }
+      .email-wrapper {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+      .email-header {
+        text-align: center;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-bottom: 1px solid #ddd;
+      }
+      .email-header h1 {
+        margin: 0;
+        font-size: 24px;
+        color: #333;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+      .email-body {
+        padding: 20px;
+      }
+      .greeting {
+        font-size: 18px;
+        margin-bottom: 5px;
+        color: #333;
+      }
+      .intro-text {
+        margin: 5px 0 15px;
+        color: #555;
+        line-height: 1.6;
+      }
+      .order-info {
+        margin-bottom: 20px;
+      }
+      .order-info p {
+        margin: 4px 0;
+        color: #555;
+        font-size: 14px;
+      }
+      .items-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      .items-table th,
+      .items-table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+        font-size: 14px;
+      }
+      .items-table th {
+        background-color: #f9f9f9;
+        font-weight: bold;
+      }
+      .summary-table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+      }
+      .summary-table tr {
+        border-bottom: 1px solid #ddd;
+      }
+      .summary-table td {
+        padding: 8px;
+        font-size: 14px;
+        color: #555;
+      }
+      .summary-table td:last-child {
+        text-align: right;
+      }
+      .total-row td {
+        font-weight: bold;
+      }
+      .note {
+        margin: 20px 0;
+        color: #555;
+        line-height: 1.6;
+      }
+      .footer {
+        text-align: center;
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-top: 1px solid #ddd;
+      }
+      .footer a {
+        color: #007bff;
+        text-decoration: none;
+      }
+      .footer a:hover {
+        text-decoration: underline;
+      }
+      .brand {
+        font-weight: bold;
+        color: #333;
+        text-decoration: none;
+      }
+      /* Responsive */
+      @media (max-width: 600px) {
+        .email-wrapper {
+          width: 100%;
+          border-radius: 0;
+        }
+        .email-header,
+        .email-body,
+        .footer {
+          padding: 10px;
+        }
+        .items-table th,
+        .items-table td,
+        .summary-table td {
+          font-size: 13px;
+          padding: 6px;
+        }
+        .greeting {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class='email-container'>
+      <div class='email-wrapper'>
+        <div class='email-header'>
+          <h1>TONER</h1>
+        </div>
+
+        <div class='email-body'>
+          <h2 class='greeting'>Your Order Confirmed!</h2>
+          <p class='intro-text'>
+            Hello,
+            {{name}}.<br />
+            Your order has been Confirmed and will be shipping soon.
+          </p>
+
+          <div class='order-info'>
+            <p><strong>Date:</strong> {{orderDate}}</p>
+            <p><strong>Order ID:</strong> {{orderId}}</p>
+            <p><strong>Payment:</strong> {{paymentMethod}}</p>
+            <p><strong>Address:</strong> {{deliveryAddress}}</p>
+          </div>
+
+          <table class='items-table'>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Price (VND)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each products}}
+                <tr>
+                  <td>
+                    <div
+                      style='display: flex; gap: 10px; align-items: flex-start;'
+                    >
+                      <div style='width: 50px; height: 50px;'>
+                        <img
+                          src='{{this.image}}'
+                          alt=''
+                          width='50'
+                          height='50'
+                          style='border:1px solid #ddd; border-radius: 4px; width: 100%; height: 100%'
+                        />
+                      </div>
+                      <div>
+                        <strong>{{this.name}}</strong>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{this.quantity}}</td>
+                  <td>{{this.price}}₫</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+
+          <!-- Summary -->
+          <table class='summary-table'>
+            <tr>
+              <td>Subtotal</td>
+              <td>{{orderGrandTotal}}</td>
+            </tr>
+            <tr>
+              <td>Shipping Charge</td>
+              <td>{{feeShip}}</td>
+            </tr>
+            <tr>
+              <td>Tax ({{taxPercent}}%)</td>
+              <td>{{taxValue}}</td>
+            </tr>
+            <tr>
+              <td>Discount ({{discountCode}})</td>
+              <td>{{totalApplyDiscount}}đ</td>
+            </tr>
+            <tr class='total-row'>
+              <td>Total</td>
+              <td>{{orderTotal}}</td>
+            </tr>
+          </table>
+
+          <!-- Note -->
+          <p class='note'>
+            We'll send you shipping Confirmation when your item(s) ship. Thank
+            you for your purchase!
+          </p>
+
+          <p>Thank you!<br />
+            Themsbrand</p>
+        </div>
+
+        <!-- Footer -->
+        <div class='footer'>
+          <p>
+            Questions? Contact
+            <a href='{{customerSupportLink}}' target='_blank'>Our Customer
+              Support</a>
+          </p>
+          <p>2025 © Toner</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
