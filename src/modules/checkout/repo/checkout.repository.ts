@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CartService } from 'src/modules/cart/cart.service';
-import { ProductRepository } from 'src/modules/products/repo/product.repository';
+import { ProductRepository } from 'src/modules/products/infrastructure/repository/product.repository';
 import { ICheckoutReview } from 'src/types';
 import { convertToObjectIdMongodb } from 'src/utils';
 import {

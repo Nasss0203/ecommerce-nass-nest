@@ -1,5 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, HydratedDocument, Schema as SchemaTypes } from 'mongoose';
+import {
+  Document,
+  HydratedDocument,
+  Schema as SchemaTypes,
+  Types,
+} from 'mongoose';
 import { Brand } from 'src/modules/brand/schemas/brand.schema';
 import { Category } from 'src/modules/category/schemas/category.schema';
 
@@ -31,19 +36,19 @@ export class Product extends Document {
 
   @Prop({
     required: true,
-    type: SchemaTypes.Types.ObjectId,
+    type: Types.ObjectId,
     ref: Category.name,
   })
-  product_category: SchemaTypes.Types.ObjectId;
+  product_category: Types.ObjectId;
 
-  @Prop({ required: true, type: SchemaTypes.Types.ObjectId, ref: Brand.name })
-  product_brand: SchemaTypes.Types.ObjectId;
+  @Prop({ required: true, type: Types.ObjectId, ref: Brand.name })
+  product_brand: Types.ObjectId;
 
   @Prop({ type: SchemaTypes.Types.Mixed, default: {} })
   product_attributes: Record<string, any>;
 
-  @Prop({ required: true, type: SchemaTypes.Types.ObjectId, ref: 'Auth' })
-  product_auth: SchemaTypes.Types.ObjectId;
+  @Prop({ required: true, type: Types.ObjectId, ref: 'Auth' })
+  product_auth: Types.ObjectId;
 
   @Prop({
     default: 4.5,

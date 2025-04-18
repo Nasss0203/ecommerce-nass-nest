@@ -1,3 +1,5 @@
+import { IQuery } from 'src/interfaces';
+
 export interface ICheckoutReview {
   cartId: string;
   userId: string;
@@ -20,4 +22,21 @@ interface IOrderId {
       price: number;
     },
   ];
+}
+
+export interface IResponse<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+export interface IQueryAdvanced {
+  filter?: Record<string, any>;
+  query?: IQuery;
+  page?: number;
+  skip?: number;
+  limit?: number;
+  sort?: Record<string, 1 | -1>;
+  select?: string[];
 }

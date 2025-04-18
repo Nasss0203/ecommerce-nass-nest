@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { convertToObjectIdMongodb } from 'src/utils';
+import { FindOneProductUsecase } from '../products/application/use-case/findOne.use-case';
 import { ProductsService } from '../products/products.service';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { Cart } from './schemas/cart.schema';
@@ -11,6 +12,7 @@ export class CartService {
   constructor(
     @InjectModel(Cart.name) private cartModel: Model<Cart>,
     private productService: ProductsService,
+    private findOneProductUsecase: FindOneProductUsecase,
   ) {}
   async createUserCart({
     userId,
@@ -103,7 +105,7 @@ export class CartService {
   async updateCart({ userId, item_products }) {
     const { productId, quantity, old_quantity } = item_products[0];
 
-    const fonudProduct = await this.productService.findOne(productId);
+    const fonudProduct = await this.findOneProductUsecase.execute(productId);
     if (!fonudProduct)
       throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
 

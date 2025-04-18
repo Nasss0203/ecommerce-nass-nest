@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Product, ProductSchema } from '../products/schemas/product.schema';
+import {
+  Product,
+  ProductSchema,
+} from '../products/infrastructure/schemas/product.schema';
 import { CategoryController } from './category.controller';
 import { CategoryService } from './category.service';
 import { Category, CategorySchema } from './schemas/category.schema';

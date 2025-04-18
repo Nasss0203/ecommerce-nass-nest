@@ -1,6 +1,7 @@
 import { Types } from 'mongoose';
 
-export const convertToObjectIdMongodb = (_id: any) => new Types.ObjectId(_id);
+export const convertToObjectIdMongodb = (_id: string | any) =>
+  new Types.ObjectId(_id);
 
 export const getSelectData = (select = []) => {
   return Object.fromEntries(select.map((el) => [el, 1]));
@@ -16,3 +17,5 @@ export const generateOrderTrackingCode = () => {
 export const randomProductId = () => {
   return Math.floor(Math.random() * 89999 + 100000);
 };
+
+export type LeanDocument<T> = T & { $locals?: never };
