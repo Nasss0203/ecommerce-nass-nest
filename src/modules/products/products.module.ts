@@ -14,6 +14,7 @@ import { FindOneProductUsecase } from './application/use-case/findOne.use-case';
 import { QueryProductUsecase } from './application/use-case/query.use-case';
 import { SearchProductUsecase } from './application/use-case/search.use-case';
 import { UpdateProductUsecase } from './application/use-case/update.use-case';
+import { ProductValidator } from './domain/validators/product.validator';
 import { ProductRepository } from './infrastructure/repository/product.repository';
 import {
   Product,
@@ -44,6 +45,7 @@ import { ProductsService } from './products.service';
     SearchProductUsecase,
     FindAllProductDraftUsecase,
     FindAllProductPublishUsecase,
+    ProductValidator,
   ],
   exports: [ProductRepository, ProductsService, FindOneProductUsecase],
 })

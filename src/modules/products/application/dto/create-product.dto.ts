@@ -1,4 +1,3 @@
-import { Types } from 'mongoose';
 export class CreateProductDto {
   product_name: string;
 
@@ -8,7 +7,7 @@ export class CreateProductDto {
 
   product_price: number;
 
-  product_images: [string];
+  product_images: string[];
 
   product_slug: string;
 
@@ -20,7 +19,7 @@ export class CreateProductDto {
 
   product_attributes: Record<string, any>;
 
-  product_auth: Types.ObjectId;
+  product_auth: string;
 
   product_ratingAverage: number;
 

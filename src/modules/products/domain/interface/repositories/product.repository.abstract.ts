@@ -1,7 +1,7 @@
 import { Document, FilterQuery, Model } from 'mongoose';
 import { IAuth } from 'src/modules/auth/auth.interface';
-import { UpdateProductDto } from '../../application/dto/update-product.dto';
-import { IProductRepository } from '../interface/product.interface';
+import { UpdateProductDto } from '../../../application/dto/update-product.dto';
+import { IProductRepository } from '../product.interface';
 
 export abstract class ProductRepositoryAbstract<T extends Document>
   implements IProductRepository<T>

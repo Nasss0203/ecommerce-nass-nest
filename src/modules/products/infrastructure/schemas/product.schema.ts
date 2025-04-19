@@ -26,7 +26,7 @@ export class Product extends Document {
   product_price: number;
 
   @Prop({ default: [] })
-  product_images: [string];
+  product_images: string[];
 
   @Prop()
   product_slug: string;

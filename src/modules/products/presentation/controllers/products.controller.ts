@@ -23,12 +23,10 @@ import { FindAllProductUsecase } from '../../application/use-case/findAll.use-ca
 import { FindOneProductUsecase } from '../../application/use-case/findOne.use-case';
 import { SearchProductUsecase } from '../../application/use-case/search.use-case';
 import { UpdateProductUsecase } from '../../application/use-case/update.use-case';
-import { ProductsService } from '../../products.service';
 
 @Controller('products')
 export class ProductsController {
   constructor(
-    private readonly productsService: ProductsService,
     private readonly createProductUseCase: CreateProductUseCase,
     private readonly deleteProductUsecase: DeleteProductUsecase,
     private readonly findAllProductUsecase: FindAllProductUsecase,
@@ -50,6 +48,7 @@ export class ProductsController {
   @ResponseMessage('Create product successfully')
   @Post('create')
   create(@Body() createProductDto: CreateProductDto, @Auth() auth: IAuth) {
+    console.log(' createProductDto~', createProductDto);
     return this.createProductUseCase.execute(createProductDto, auth._id);
   }
 

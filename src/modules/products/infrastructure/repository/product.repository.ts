@@ -5,7 +5,7 @@ import { IAuth } from 'src/modules/auth/auth.interface';
 import { IQueryAdvanced } from 'src/types';
 import { convertToObjectIdMongodb } from 'src/utils';
 import { UpdateProductDto } from '../../application/dto/update-product.dto';
-import { ProductRepositoryAbstract } from '../../domain/repositories/product.repository.abstract';
+import { ProductRepositoryAbstract } from '../../domain/interface/repositories/product.repository.abstract';
 import { Product } from '../schemas/product.schema';
 
 @Injectable()
@@ -26,6 +26,8 @@ export class ProductRepository extends ProductRepositoryAbstract<Product> {
       const newProduct = new this.productModel({
         ...data,
         product_auth: convertToObjectIdMongodb(product_auth),
+        product_category: convertToObjectIdMongodb(data.product_category),
+        product_brand: convertToObjectIdMongodb(data.product_brand),
       });
 
       return await newProduct.save();
@@ -133,6 +135,7 @@ export class ProductRepository extends ProductRepositoryAbstract<Product> {
         },
       },
     );
+
     return res;
   }
 
