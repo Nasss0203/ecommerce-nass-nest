@@ -2,10 +2,13 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CartModule } from '../cart/cart.module';
 import { ProductsModule } from '../products/products.module';
-import { CheckoutController } from './checkout.controller';
 import { CheckoutService } from './checkout.service';
-import { CheckoutRepository } from './repo/checkout.repository';
-import { Checkout, CheckoutSchema } from './schemas/checkout.schema';
+import { CheckoutRepository } from './infrastructure/repository/checkout.repository';
+import {
+  Checkout,
+  CheckoutSchema,
+} from './infrastructure/schemas/checkout.schema';
+import { CheckoutController } from './presentation/controllers/checkout.controller';
 
 @Module({
   imports: [

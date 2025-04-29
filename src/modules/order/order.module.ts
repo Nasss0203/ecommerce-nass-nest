@@ -4,7 +4,10 @@ import { AuthModule } from '../auth/auth.module';
 import { CartModule } from '../cart/cart.module';
 import { Cart, CartSchema } from '../cart/schemas/cart.schema';
 import { CheckoutModule } from '../checkout/checkout.module';
-import { Checkout, CheckoutSchema } from '../checkout/schemas/checkout.schema';
+import {
+  Checkout,
+  CheckoutSchema,
+} from '../checkout/infrastructure/schemas/checkout.schema';
 import { MailModule } from '../mail/mail.module';
 import { OrderController } from './order.controller';
 import { OrderService } from './order.service';

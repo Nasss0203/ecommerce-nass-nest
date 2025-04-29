@@ -4,8 +4,8 @@ import { Model } from 'mongoose';
 import { TEMPLATES } from 'src/constants';
 import { AuthService } from 'src/modules/auth/auth.service';
 import { Cart } from 'src/modules/cart/schemas/cart.schema';
-import { CheckoutRepository } from 'src/modules/checkout/repo/checkout.repository';
-import { Checkout } from 'src/modules/checkout/schemas/checkout.schema';
+import { CheckoutRepository } from 'src/modules/checkout/infrastructure/repository/checkout.repository';
+import { Checkout } from 'src/modules/checkout/infrastructure/schemas/checkout.schema';
 import { MailService } from 'src/modules/mail/mail.service';
 import { Order } from '../schemas/order.schema';
 

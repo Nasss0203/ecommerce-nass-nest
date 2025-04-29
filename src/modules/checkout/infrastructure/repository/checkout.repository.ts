@@ -8,7 +8,7 @@ import { convertToObjectIdMongodb } from 'src/utils';
 import {
   CheckoutProductItemDto,
   CreateCheckoutDto,
-} from '../dto/create-checkout.dto';
+} from '../../applications/dto/create-checkout.dto';
 import { Checkout } from '../schemas/checkout.schema';
 
 @Injectable()

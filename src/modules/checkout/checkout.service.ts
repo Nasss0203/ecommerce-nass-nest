@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateCheckoutDto } from './dto/update-checkout.dto';
-import { CheckoutRepository } from './repo/checkout.repository';
+import { UpdateCheckoutDto } from './applications/dto/update-checkout.dto';
+import { CheckoutRepository } from './infrastructure/repository/checkout.repository';
 
 @Injectable()
 export class CheckoutService {

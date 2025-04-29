@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { ResponseMessage } from 'src/common/customize';
-import { CheckoutService } from './checkout.service';
-import { UpdateCheckoutDto } from './dto/update-checkout.dto';
+import { UpdateCheckoutDto } from '../../applications/dto/update-checkout.dto';
+import { CheckoutService } from '../../checkout.service';
 
 @Controller('checkout')
 export class CheckoutController {

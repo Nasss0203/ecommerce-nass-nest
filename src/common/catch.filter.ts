@@ -39,6 +39,7 @@ export class CatchEverythingFilter implements ExceptionFilter {
       statusCode: httpStatus,
       message,
       error,
+
       timestamp: new Date().toISOString(),
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
     };
