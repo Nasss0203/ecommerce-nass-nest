@@ -4,8 +4,8 @@ import { CategoryService } from 'src/modules/category/category.service';
 
 export class ProductValidator {
   constructor(
-    private categoryService: CategoryService,
-    private brandService: BrandService,
+    private readonly categoryService: CategoryService,
+    private readonly brandService: BrandService,
   ) {}
 
   static validateProductName(productName: string): void {
@@ -37,6 +37,7 @@ export class ProductValidator {
 
   async validateCategory(categoryId: string): Promise<void> {
     const category = await this.categoryService.findOne(categoryId);
+
     if (!category) {
       throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
     }
@@ -44,6 +45,7 @@ export class ProductValidator {
 
   async validateBrand(brandId: string): Promise<void> {
     const brand = await this.brandService.findOne(brandId);
+    console.log(' brand~', brand);
     if (!brand) {
       throw new HttpException('Brand not found', HttpStatus.NOT_FOUND);
     }

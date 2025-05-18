@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BrandService } from 'src/modules/brand/brand.service';
+import { CategoryService } from 'src/modules/category/category.service';
 import { InventoryService } from 'src/modules/inventory/inventory.service';
 import { convertToObjectIdMongodb } from 'src/utils';
 import { ProductEntity } from '../../domain/entities/products.entity';
@@ -12,7 +14,8 @@ export class CreateProductUseCase {
   constructor(
     private readonly productRepository: ProductRepository,
     private inventoryService: InventoryService,
-    private productValidator: ProductValidator,
+    private readonly categoryService: CategoryService,
+    private readonly brandService: BrandService,
   ) {}
 
   async execute(createProductDto: CreateProductDto, userId: string) {
@@ -20,10 +23,18 @@ export class CreateProductUseCase {
     ProductValidator.validateProductPrice(createProductDto.product_price);
     ProductValidator.validateProductQuantity(createProductDto.product_quantity);
 
-    await this.productValidator.validateCategory(
+    const category = await this.categoryService.findOne(
       createProductDto.product_category,
     );
-    await this.productValidator.validateBrand(createProductDto.product_brand);
+    if (!category) {
+      throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+    }
+    const brand = await this.brandService.findOne(
+      createProductDto.product_brand,
+    );
+    if (!brand) {
+      throw new HttpException('Brand not found', HttpStatus.NOT_FOUND);
+    }
 
     const productEntity = ProductEntity.create({
       product_name: createProductDto.product_name,
@@ -42,8 +53,10 @@ export class CreateProductUseCase {
       isPublished: createProductDto.isPublished,
       product_auth: userId,
     });
+    console.log(' productEntity~', productEntity);
 
     const productData = mapEntityToProductDocument(productEntity);
+    console.log(' productData~', productData);
 
     const savedProduct = await this.productRepository.create(
       productData,

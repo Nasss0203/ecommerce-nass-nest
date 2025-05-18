@@ -47,7 +47,7 @@ export class FileController {
 
   @Post('upload-multi')
   @ResponseMessage('Upload multi file successfully')
-  @UseInterceptors(FilesInterceptor('files', 20))
+  @UseInterceptors(FilesInterceptor('files', 30))
   async uploadFileMulti(
     @UploadedFiles(
       new ParseFilePipeBuilder()
@@ -56,7 +56,7 @@ export class FileController {
             /^(image\/(jpeg|png|gif)|text\/plain|application\/(pdf|msword|vnd\.openxmlformats-officedocument\.wordprocessingml\.document))$/i,
         })
         .addMaxSizeValidator({
-          maxSize: 1024 * 1000,
+          maxSize: 5 * 1024 * 1000,
         })
         .build({
           errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,

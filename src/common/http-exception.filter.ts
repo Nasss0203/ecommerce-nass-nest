@@ -13,6 +13,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
     const status = exception.getStatus();
+    const stack = exception.stack;
 
     const exceptionResponse = exception.getResponse();
     let message = exception.message || 'An error occurred';
@@ -27,8 +28,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     response.status(status).json({
       statusCode: status,
       message,
-      error,
-
+      stack,
       path: request.url,
       timestamp: new Date().toISOString(),
     });
