@@ -26,7 +26,7 @@ async function bootstrap() {
       origin: [
         configService.get<string>('LOCALHOST_CLIENT_NEXT'),
         configService.get<string>('LOCALHOST_CLIENT_REACT'),
-        configService.get<string>('LOCALHOST_CLIENT_DELOY'),
+        configService.get<string>('LOCALHOST_CLIENT_DEPLOY'),
       ],
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       preflightContinue: false,

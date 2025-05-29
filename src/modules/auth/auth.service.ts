@@ -44,7 +44,7 @@ export class AuthService {
     const auth = await this.authModel.create({
       ...createAuthDto,
       password: hashPassword,
-      roles: [RoleAuth.ADMIN],
+      roles: [RoleAuth.USER],
     });
 
     if (auth) {
@@ -79,7 +79,6 @@ export class AuthService {
   }
 
   findOneByEmail(email: string) {
-    console.log(' email~', email);
     return this.authModel.findOne({
       email: email,
     });
@@ -149,7 +148,6 @@ export class AuthService {
 
   async refreshToken(request: Request, response: Response) {
     const refresh_token = request.cookies['refresh_token'];
-    console.log('refresh_token from cookie:', refresh_token);
 
     if (!refresh_token) {
       throw new HttpException(

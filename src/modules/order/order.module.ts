@@ -29,4 +29,5 @@ import { Order, OrderSchema } from './schemas/order.schema';
   controllers: [OrderController],
   providers: [OrderService, OrderRepository],
 })
-export class OrderModule {}
+export class OrderModule {} 
+
