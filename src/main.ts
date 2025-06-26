@@ -6,7 +6,6 @@ import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { CatchEverythingFilter } from './common/catch.filter';
 import { TransformInterceptor } from './common/core/transform.interceptor';
-import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { HttpExceptionFilter } from './common/http-exception.filter';
 
 async function bootstrap() {
@@ -15,9 +14,10 @@ async function bootstrap() {
   const reflector = app.get(Reflector);
   const httpAdapterHost = app.get(HttpAdapterHost);
 
-  app.useGlobalGuards(new JwtAuthGuard(reflector));
+  // app.useGlobalGuards(new JwtAuthGuard(reflector), new RolesGuard(reflector));
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
+
   app.useGlobalFilters(
     new HttpExceptionFilter(),
     new CatchEverythingFilter(httpAdapterHost),

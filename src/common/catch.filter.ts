@@ -40,7 +40,7 @@ export class CatchEverythingFilter implements ExceptionFilter {
       message,
       error,
       stack,
-      timestamp: new Date().toISOString(),
+      // timestamp: new Date().toISOString(),
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
     };
 

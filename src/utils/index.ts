@@ -1,4 +1,5 @@
 import { Types } from 'mongoose';
+import slugify from 'slugify';
 
 export const convertToObjectIdMongodb = (_id: string | any) =>
   new Types.ObjectId(_id);
@@ -19,3 +20,11 @@ export const randomProductId = () => {
 };
 
 export type LeanDocument<T> = T & { $locals?: never };
+
+export function generateSlug(text: string): string {
+  return slugify(text, {
+    lower: true,
+    locale: 'vi',
+    strict: true, // bỏ ký tự đặc biệt
+  });
+}
