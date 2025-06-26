@@ -1,23 +1,27 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './modules/auth/auth.module';
-import { BrandModule } from './modules/brand/brand.module';
-import { CartModule } from './modules/cart/cart.module';
-import { CategoryModule } from './modules/category/category.module';
-import { CheckoutModule } from './modules/checkout/checkout.module';
-import { DatabaseModule } from './modules/database/database.module';
-import { DiscountModule } from './modules/discount/discount.module';
-import { FileModule } from './modules/file/file.module';
-import { InventoryModule } from './modules/inventory/inventory.module';
-import { MailModule } from './modules/mail/mail.module';
-import { OrderModule } from './modules/order/order.module';
-import { ProductsModule } from './modules/products/products.module';
-import { RevenueModule } from './modules/revenue/revenue.module';
-import { TokensModule } from './modules/tokens/tokens.module';
-import { SpuModule } from './modules/spu/spu.module';
-import { SkuModule } from './modules/sku/sku.module';
+import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
+import { RolesGuard } from './common/guards/roles.guard';
+import { DiscountModule } from './modules/discount-management/discount/discount.module';
+import { DatabaseModule } from './modules/infrastructure/database/database.module';
+import { CartModule } from './modules/order-management/cart/cart.module';
+import { CheckoutModule } from './modules/order-management/checkout/checkout.module';
+import { OrderModule } from './modules/order-management/order/order.module';
+import { BrandModule } from './modules/product-management/brand/brand.module';
+import { CategoryModule } from './modules/product-management/category/category.module';
+import { InventoryModule } from './modules/product-management/inventory/inventory.module';
+import { ProductsModule } from './modules/product-management/products/products.module';
+import { SkuModule } from './modules/product-management/sku/sku.module';
+import { SpuModule } from './modules/product-management/spu/spu.module';
+import { RevenueModule } from './modules/revenue-reporting/revenue/revenue.module';
+import { ShopsModule } from './modules/shop-management/shops/shops.module';
+import { FileModule } from './modules/system-support/file/file.module';
+import { MailModule } from './modules/system-support/mail/mail.module';
+import { AuthModule } from './modules/user-management/auth/auth.module';
+import { TokensModule } from './modules/user-management/tokens/tokens.module';
 
 @Module({
   imports: [
@@ -40,8 +44,19 @@ import { SkuModule } from './modules/sku/sku.module';
     DatabaseModule,
     SpuModule,
     SkuModule,
+    ShopsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard, // chạy trước
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard, // chạy sau
+    },
+  ],
 })
 export class AppModule {}

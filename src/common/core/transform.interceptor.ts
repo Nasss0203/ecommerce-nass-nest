@@ -7,7 +7,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RESPONSE_MESSAGE } from '../customize';
+import { RESPONSE_MESSAGE } from '../decorator/customize.decorator';
 
 export interface Response<T> {
   statusCode: number;
