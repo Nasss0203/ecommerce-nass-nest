@@ -1,4 +1,4 @@
-import { IAuth } from 'src/modules/auth/auth.interface';
+import { IAuth } from 'src/modules/user-management/auth/auth.interface';
 
 export interface IQuery {
   category?: string;
