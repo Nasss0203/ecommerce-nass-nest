@@ -15,31 +15,6 @@ export class ProductRepository extends ProductRepositoryAbstract<Product> {
   }
 
   /**
-   * Creates a new product.
-   *
-   * @param data - The product data to be created.
-   * @param product_auth - The ID of the authenticated user creating the product.
-   * @returns The created product document.
-   */
-  async create(data: Partial<Product>, product_auth: string): Promise<Product> {
-    try {
-      const newProduct = new this.productModel({
-        ...data,
-        product_auth: convertToObjectIdMongodb(product_auth),
-        product_category: convertToObjectIdMongodb(data.product_category),
-        product_brand: convertToObjectIdMongodb(data.product_brand),
-      });
-
-      return await newProduct.save();
-    } catch (error) {
-      throw new HttpException(
-        'Failed to create product',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
-
-  /**
    *
    * @param param0 -  productId, auth
    * @returns
@@ -264,7 +239,7 @@ export class ProductRepository extends ProductRepositoryAbstract<Product> {
   }
 
   async checkProduct(products: any, cart: any) {
-    const productIds = products.map((product) => product.productId);
+    const productIds = products.map((product: any) => product.productId);
 
     const foundProducts = await this.getArrayProduct(productIds);
 
@@ -273,9 +248,10 @@ export class ProductRepository extends ProductRepositoryAbstract<Product> {
     );
 
     return products
-      .map((product) => {
+      .map((product: any) => {
         const foundCartItems = cart.cart_products.filter(
-          (item) => item.productId.toString() === product.productId.toString(),
+          (item: any) =>
+            item.productId.toString() === product.productId.toString(),
         );
 
         if (foundCartItems.length > 0) {
@@ -287,7 +263,7 @@ export class ProductRepository extends ProductRepositoryAbstract<Product> {
               0,
             );
             const totalPrice = foundCartItems.reduce(
-              (sum, item) => sum + item.quantity * item.price,
+              (sum: number, item: any) => sum + item.quantity * item.price,
               0,
             );
 
@@ -303,6 +279,6 @@ export class ProductRepository extends ProductRepositoryAbstract<Product> {
           }
         }
       })
-      .filter((item) => item !== undefined);
+      .filter((item: any) => item !== undefined);
   }
 }

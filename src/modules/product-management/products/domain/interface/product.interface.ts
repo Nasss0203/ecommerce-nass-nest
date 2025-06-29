@@ -3,7 +3,7 @@ import { IAuth } from 'src/modules/user-management/auth/auth.interface';
 import { UpdateProductDto } from '../../application/dto/update-product.dto';
 
 export interface IProductRepository<T extends Document> {
-  create(data: Partial<T>, auth: string): Promise<T>;
+  create(data: Partial<T>, auth: string, shopId: string): Promise<T>;
 
   findOne(id: string): Promise<T>;
 

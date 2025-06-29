@@ -50,6 +50,9 @@ export class Product extends Document {
   @Prop({ required: true, type: Types.ObjectId, ref: 'Auth' })
   product_auth: Types.ObjectId;
 
+  @Prop({ required: true, type: Types.ObjectId, ref: 'Shops' })
+  product_shop: Types.ObjectId;
+
   @Prop({
     default: 4.5,
     min: [1, 'Rating must be above 1.0'],

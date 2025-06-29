@@ -28,4 +28,6 @@ export class CreateProductDto {
   isDraft: boolean;
 
   isPublished: boolean;
+
+  product_shop: string;
 }

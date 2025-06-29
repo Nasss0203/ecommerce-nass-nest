@@ -1,12 +1,16 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Auth } from 'src/modules/user-management/auth/schemas/auth.schema';
 import { ShopRepositoryAbstract } from '../../domain/interface/repository/shop.repository.abstract';
 import { Shop } from '../schemas/shop.schema';
 
 @Injectable()
 export class ShopRepository extends ShopRepositoryAbstract<Shop> {
-  constructor(@InjectModel(Shop.name) private shopModel: Model<Shop>) {
+  constructor(
+    @InjectModel(Shop.name) private shopModel: Model<Shop>,
+    @InjectModel(Auth.name) private authModel: Model<Auth>,
+  ) {
     super(shopModel);
   }
 
@@ -29,6 +33,18 @@ export class ShopRepository extends ShopRepositoryAbstract<Shop> {
         shop_slug: data.shop_slug.toLowerCase(),
         status: 'active',
       });
+
+      if (newShop) {
+        await this.authModel.updateOne(
+          {
+            _id: auth,
+          },
+          {
+            $set: { shop_id: newShop._id },
+            $addToSet: { roles: 'seller' },
+          },
+        );
+      }
 
       return await newShop.save();
     } catch (error) {

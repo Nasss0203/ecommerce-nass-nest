@@ -17,6 +17,9 @@ export class Brand extends Document {
 
   @Prop({ required: true, ref: Category.name, type: Types.ObjectId })
   categories: Types.ObjectId;
+
+  @Prop({ type: Types.ObjectId, ref: 'Shops' })
+  shop_id: Types.ObjectId;
 }
 
 export const BrandSchema = SchemaFactory.createForClass(Brand);

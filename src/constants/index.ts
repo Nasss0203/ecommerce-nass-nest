@@ -1,6 +1,6 @@
 export const RoleAuth = {
   ADMIN: 'ADMIN',
-  USER: 'USER',
+  USER: 'user',
 };
 
 export const TEMPLATES = {

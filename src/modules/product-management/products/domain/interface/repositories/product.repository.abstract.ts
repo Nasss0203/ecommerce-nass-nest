@@ -8,10 +8,11 @@ export abstract class ProductRepositoryAbstract<T extends Document>
 {
   constructor(protected readonly model: Model<T>) {}
 
-  async create(data: Partial<T>, auth: string): Promise<T> {
+  async create(data: Partial<T>, auth: string, shopId: string): Promise<T> {
     const response = new this.model({
       ...data,
       product_auth: auth,
+      product_shop: shopId,
     });
     return await response.save();
   }

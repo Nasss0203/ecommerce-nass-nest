@@ -45,16 +45,17 @@ export class Auth extends Document {
   })
   roles: ('admin' | 'seller' | 'user')[];
 
-  @Prop()
+  @Prop({ default: 0 })
   phone: number;
 
   @Prop({ default: '' })
   avatar: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'Shops' })
+  @Prop({ type: Types.ObjectId, ref: 'Shops', default: '' })
   shop_id: Types.ObjectId;
 
-  @Prop()
+  @Prop({ type: Date, default: Date.now })
   last_login_at: Date;
 }
+
 export const AuthSchema = SchemaFactory.createForClass(Auth);

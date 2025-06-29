@@ -3,4 +3,5 @@ export interface IAuth {
   username: string;
   email: string;
   roles: [];
+  shop_id?: string;
 }

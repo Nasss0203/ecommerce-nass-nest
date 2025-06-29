@@ -51,12 +51,16 @@ export class ProductsController {
    * @param auth
    * @returns
    */
-  @Roles(Role.Admin)
+  @Roles(Role.Seller)
   @ResponseMessage('Create product successfully')
   @Post('create')
   create(@Body() createProductDto: CreateProductDto, @Auth() auth: IAuth) {
-    console.log(' createProductDto~', createProductDto);
-    return this.createProductUseCase.execute(createProductDto, auth._id);
+    // return this.createProductUseCase.execute(createProductDto, auth._id);
+    return this.createProductUseCase.execute({
+      createProductDto,
+      userId: auth._id,
+      shopId: auth.shop_id,
+    });
   }
 
   /**

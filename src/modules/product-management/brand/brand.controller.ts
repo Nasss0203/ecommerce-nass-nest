@@ -12,6 +12,8 @@ import {
   Public,
   ResponseMessage,
 } from 'src/common/decorator/customize.decorator';
+import { Roles } from 'src/common/decorator/roles.decorator';
+import { Role } from 'src/enum/role.enum';
 import { BrandService } from './brand.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
@@ -20,6 +22,7 @@ import { UpdateBrandDto } from './dto/update-brand.dto';
 export class BrandController {
   constructor(private readonly brandService: BrandService) {}
 
+  @Roles(Role.Seller)
   @Post('create')
   create(@Body() createBrandDto: CreateBrandDto) {
     return this.brandService.create(createBrandDto);

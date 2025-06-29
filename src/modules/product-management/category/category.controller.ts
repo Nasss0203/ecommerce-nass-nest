@@ -9,9 +9,13 @@ import {
   Query,
 } from '@nestjs/common';
 import {
+  Auth,
   Public,
   ResponseMessage,
 } from 'src/common/decorator/customize.decorator';
+import { Roles } from 'src/common/decorator/roles.decorator';
+import { Role } from 'src/enum/role.enum';
+import { IAuth } from 'src/modules/user-management/auth/auth.interface';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -20,9 +24,14 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
+  @Roles(Role.Seller)
+  @ResponseMessage('Create category successfully')
   @Post('create')
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoryService.create(createCategoryDto);
+  create(@Body() createCategoryDto: CreateCategoryDto, @Auth() auth: IAuth) {
+    return this.categoryService.create({
+      createCategoryDto,
+      shopId: auth.shop_id,
+    });
   }
 
   @Public()

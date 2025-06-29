@@ -55,9 +55,9 @@ export class AuthService {
     //   });
     // }
 
-    const { _id, username, email, verify, roles } = auth;
+    const { _id, username, email, verify, roles, shop_id } = auth;
 
-    return { _id, username, email, verify, roles };
+    return { _id, username, email, verify, roles, shop_id };
   }
 
   findAll() {
@@ -100,12 +100,13 @@ export class AuthService {
   }
 
   async login(user: IAuth, response: Response) {
-    const { _id, username, email, roles } = user;
+    const { _id, username, email, roles, shop_id } = user;
     const payload = {
       _id,
       username,
       email,
       roles,
+      shop_id,
     };
     const access_token = this.jwtService.sign(payload);
     const refresh_token = this.createRefreshToken(payload);
@@ -131,6 +132,7 @@ export class AuthService {
       username,
       email,
       roles,
+      shop_id,
       tokens: {
         access_token,
         refresh_token,

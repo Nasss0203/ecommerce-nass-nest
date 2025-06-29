@@ -20,7 +20,6 @@ export class CreateShopUseCase {
       owner_id: userId,
       status: createShopDto.status,
     });
-    console.log(' shopEntity~', shopEntity);
 
     const shopData = mapEntityToShopDocument(shopEntity);
 

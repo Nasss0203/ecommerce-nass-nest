@@ -18,7 +18,7 @@ import { CreateShopDto } from '../../application/dto/create-shop.dto';
 import { UpdateShopDto } from '../../application/dto/update-shop.dto';
 import { CreateShopUseCase } from '../../application/use-case/create.use-case';
 
-@Controller('shops')
+@Controller('shop')
 export class ShopsController {
   constructor(private readonly createShopUseCase: CreateShopUseCase) {}
 
@@ -31,8 +31,8 @@ export class ShopsController {
   @Roles(Role.User)
   @ResponseMessage('Create shop successfully')
   @Post('create')
-  create(@Body() createShopDto: CreateShopDto, @Auth() auth: IAuth) {
-    return this.createShopUseCase.execute(createShopDto, auth._id);
+  async create(@Body() createShopDto: CreateShopDto, @Auth() auth: IAuth) {
+    return await this.createShopUseCase.execute(createShopDto, auth._id);
   }
 
   @Get()

@@ -5,20 +5,28 @@ import { InventoryService } from 'src/modules/product-management/inventory/inven
 import { convertToObjectIdMongodb } from 'src/utils';
 import { ProductEntity } from '../../domain/entities/products.entity';
 import { ProductValidator } from '../../domain/validators/product.validator';
-import { ProductRepository } from '../../infrastructure/repository/product.repository';
+import { ProductCreateRepository } from '../../infrastructure/repository/product-create.repository';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { mapEntityToProductDocument } from '../mappers/product.mapper';
 
 @Injectable()
 export class CreateProductUseCase {
   constructor(
-    private readonly productRepository: ProductRepository,
-    private inventoryService: InventoryService,
+    private readonly productCreateRepository: ProductCreateRepository,
+    private readonly inventoryService: InventoryService,
     private readonly categoryService: CategoryService,
     private readonly brandService: BrandService,
   ) {}
 
-  async execute(createProductDto: CreateProductDto, userId: string) {
+  async execute({
+    createProductDto,
+    userId,
+    shopId,
+  }: {
+    createProductDto: CreateProductDto;
+    userId: string;
+    shopId: string;
+  }) {
     ProductValidator.validateProductName(createProductDto.product_name);
     ProductValidator.validateProductPrice(createProductDto.product_price);
     ProductValidator.validateProductQuantity(createProductDto.product_quantity);
@@ -52,13 +60,15 @@ export class CreateProductUseCase {
       isDraft: createProductDto.isDraft,
       isPublished: createProductDto.isPublished,
       product_auth: userId,
+      product_shop: shopId,
     });
 
     const productData = mapEntityToProductDocument(productEntity);
 
-    const savedProduct = await this.productRepository.create(
+    const savedProduct = await this.productCreateRepository.create(
       productData,
       userId,
+      shopId,
     );
 
     if (savedProduct) {

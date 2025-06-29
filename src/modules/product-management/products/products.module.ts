@@ -15,6 +15,7 @@ import { QueryProductUsecase } from './application/use-case/query.use-case';
 import { SearchProductUsecase } from './application/use-case/search.use-case';
 import { UpdateProductUsecase } from './application/use-case/update.use-case';
 import { ProductValidator } from './domain/validators/product.validator';
+import { ProductCreateRepository } from './infrastructure/repository/product-create.repository';
 import { ProductRepository } from './infrastructure/repository/product.repository';
 import {
   Product,
@@ -34,6 +35,7 @@ import { ProductsService } from './products.service';
   providers: [
     ProductsService,
     ProductRepository,
+    ProductCreateRepository,
     CreateProductUseCase,
     DeleteProductUsecase,
     FindAllProductUsecase,
@@ -47,6 +49,11 @@ import { ProductsService } from './products.service';
     FindAllProductPublishUsecase,
     ProductValidator,
   ],
-  exports: [ProductRepository, ProductsService, FindOneProductUsecase],
+  exports: [
+    ProductRepository,
+    ProductsService,
+    FindOneProductUsecase,
+    ProductCreateRepository,
+  ],
 })
 export class ProductsModule {}

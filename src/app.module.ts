@@ -14,6 +14,7 @@ import { ProductsModule } from './modules/product-management/products/products.m
 import { SkuModule } from './modules/product-management/sku/sku.module';
 import { SpuModule } from './modules/product-management/spu/spu.module';
 import { RevenueModule } from './modules/revenue-reporting/revenue/revenue.module';
+import { ShopsModule } from './modules/shop-management/shops/shops.module';
 import { FileModule } from './modules/system-support/file/file.module';
 import { MailModule } from './modules/system-support/mail/mail.module';
 import { AuthModule } from './modules/user-management/auth/auth.module';
@@ -40,6 +41,7 @@ import { TokensModule } from './modules/user-management/tokens/tokens.module';
     DatabaseModule,
     SpuModule,
     SkuModule,
+    ShopsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

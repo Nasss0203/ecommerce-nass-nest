@@ -12,8 +12,17 @@ export class CategoryService {
     @InjectModel(Category.name) private categoryModel: Model<Category>,
   ) {}
 
-  async create(createCategoryDto: CreateCategoryDto) {
-    const data = await this.categoryModel.create({ ...createCategoryDto });
+  async create({
+    createCategoryDto,
+    shopId,
+  }: {
+    createCategoryDto: CreateCategoryDto;
+    shopId: string;
+  }) {
+    const data = await this.categoryModel.create({
+      ...createCategoryDto,
+      shop_id: convertToObjectIdMongodb(shopId),
+    });
     return data;
   }
 

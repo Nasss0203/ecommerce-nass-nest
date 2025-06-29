@@ -20,5 +20,6 @@ export function mapEntityToProductDocument(
     product_variations: entity.product_variations,
     isDraft: entity.isDraft,
     isPublished: entity.isPublished,
+    product_auth: convertToObjectIdMongodb(entity.product_auth),
   };
 }
