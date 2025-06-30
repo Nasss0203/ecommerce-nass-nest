@@ -5,6 +5,13 @@ import { Auth } from 'src/modules/user-management/auth/schemas/auth.schema';
 import { ShopRepositoryAbstract } from '../../domain/interface/repository/shop.repository.abstract';
 import { Shop } from '../schemas/shop.schema';
 
+const selectStruct = {
+  email: 1,
+  name: 1,
+  status: 1,
+  roles: 1,
+};
+
 @Injectable()
 export class ShopRepository extends ShopRepositoryAbstract<Shop> {
   constructor(
@@ -50,6 +57,28 @@ export class ShopRepository extends ShopRepositoryAbstract<Shop> {
     } catch (error) {
       throw new HttpException(
         'Failed to create shop',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async findShopById({
+    id,
+    select = selectStruct,
+  }: {
+    id: string;
+    select?: any;
+  }): Promise<Shop | null> {
+    try {
+      const shop = await this.shopModel.findById(id).select(select).exec();
+
+      if (!shop) {
+        throw new HttpException('Shop not found', HttpStatus.NOT_FOUND);
+      }
+      return shop;
+    } catch (error) {
+      throw new HttpException(
+        'Failed to find shop',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

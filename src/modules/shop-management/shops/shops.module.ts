@@ -19,6 +19,6 @@ import { ShopsService } from './shops.service';
   ],
   controllers: [ShopsController],
   providers: [ShopsService, ShopRepository, CreateShopUseCase],
-  exports: [ShopsService, ShopRepository],
+  exports: [ShopsService, ShopRepository, MongooseModule],
 })
 export class ShopsModule {}

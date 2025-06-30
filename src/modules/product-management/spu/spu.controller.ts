@@ -6,8 +6,13 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
-import { Auth } from 'src/common/decorator/customize.decorator';
+import {
+  Auth,
+  Public,
+  ResponseMessage,
+} from 'src/common/decorator/customize.decorator';
 import { IAuth } from 'src/modules/user-management/auth/auth.interface';
 import { CreateSpuDto } from './dto/create-spu.dto';
 import { UpdateSpuDto } from './dto/update-spu.dto';
@@ -18,6 +23,7 @@ export class SpuController {
   constructor(private readonly spuService: SpuService) {}
 
   @Post('create')
+  @ResponseMessage('Create SPU successfully')
   create(@Body() createSpuDto: CreateSpuDto, @Auth() auth: IAuth) {
     return this.spuService.create(createSpuDto, auth);
   }
@@ -27,9 +33,12 @@ export class SpuController {
     return this.spuService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.spuService.findOne(+id);
+  @Get('get_spu_info')
+  @ResponseMessage('Get SPU successfully')
+  @Public()
+  findOne(@Query() query: { product_id?: string }) {
+    const product_id = String(query.product_id);
+    return this.spuService.findOne({ spu_id: product_id });
   }
 
   @Patch(':id')

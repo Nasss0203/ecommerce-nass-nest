@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { omit } from 'lodash';
 import { Model } from 'mongoose';
 import { randomProductId } from 'src/utils';
 import { UpdateSkuDto } from './dto/update-sku.dto';
@@ -14,7 +15,7 @@ export class SkuService {
       return {
         ...sku,
         product_id: spu_id,
-        sku_id: `${spu_id}.${randomProductId()}`,
+        sku_id: `${spu_id}.${randomProductId()}`, // Generate a unique SKU ID
       };
     });
 
@@ -22,12 +23,49 @@ export class SkuService {
     return newSku;
   }
 
-  findAll() {
-    return `This action returns all sku`;
+  async findAll({ product_id }: { product_id?: string }) {
+    try {
+      //1. spu_id
+      const skus = await this.skuModel.find({ product_id }).lean();
+      return skus;
+    } catch (error) {
+      return error;
+    }
   }
 
   findOne(id: number) {
     return `This action returns a #${id} sku`;
+  }
+
+  async findOneSku({
+    sku_id,
+    product_id,
+  }: {
+    sku_id: string;
+    product_id: string;
+  }) {
+    try {
+      const sku = await this.skuModel
+        .findOne({
+          product_id,
+          sku_id,
+        })
+        .lean();
+
+      if (sku) {
+        //cache sku to redis
+      }
+
+      const cleanSku = omit(sku, [
+        '__v',
+        'createdAt',
+        'updatedAt',
+        'isDeleted',
+      ]);
+      return cleanSku;
+    } catch (error) {
+      return null; // Handle error appropriately, maybe log it
+    }
   }
 
   update(id: number, updateSkuDto: UpdateSkuDto) {

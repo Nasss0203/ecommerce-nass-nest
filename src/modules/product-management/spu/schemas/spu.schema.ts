@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument, Schema as SchemaTypes } from 'mongoose';
 import { Brand } from 'src/modules/product-management/brand/schemas/brand.schema';
 import { Category } from 'src/modules/product-management/category/schemas/category.schema';
+import { Shop } from 'src/modules/shop-management/shops/infrastructure/schemas/shop.schema';
 
 export type SpuDocument = HydratedDocument<Spu>;
 const COLLECTION_NAME = 'Spu';
@@ -32,6 +33,9 @@ export class Spu extends Document {
   @Prop({ required: true })
   product_quantity: number;
 
+  @Prop({ required: true, type: SchemaTypes.Types.ObjectId, ref: Shop.name })
+  product_shop: SchemaTypes.Types.ObjectId;
+
   @Prop({
     required: true,
     type: SchemaTypes.Types.ObjectId,
@@ -52,8 +56,10 @@ export class Spu extends Document {
     default: 4.5,
     min: [1, 'Rating must be above 1.0'],
     max: [5, 'Rating must be below 5.0'],
+    set: (v: number) => Math.round(v * 10) / 10, // Round to one decimal place
   })
   product_ratingAverage: number;
+
   @Prop({ default: [] })
   product_variations: [];
 

@@ -11,6 +11,13 @@ export class Sku extends Document {
 
   @Prop({ type: [], default: [0] })
   sku_tier_index: [];
+  // {
+  //     color = [red, blue] = [0, 1]
+  //     size = [S, M] = [0, 1]
+
+  //     => red + S = [0, 0]
+  //     red + M = [0, 1]
+  // }
 
   @Prop({ default: false })
   sku_default: boolean;

@@ -15,6 +15,10 @@ export abstract class ShopRepositoryAbstract<T extends Document>
     return await this.model.findById(id).exec();
   }
 
+  async findOne(key: Record<string, any>): Promise<T | null> {
+    return await this.model.findOne(key).exec();
+  }
+
   async findAll(): Promise<T[]> {
     return await this.model.find().exec();
   }

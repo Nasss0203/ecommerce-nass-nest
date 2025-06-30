@@ -6,7 +6,12 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
+import {
+  Public,
+  ResponseMessage,
+} from 'src/common/decorator/customize.decorator';
 import { CreateSkuDto } from './dto/create-sku.dto';
 import { UpdateSkuDto } from './dto/update-sku.dto';
 import { SkuService } from './sku.service';
@@ -20,9 +25,20 @@ export class SkuController {
     return this.skuService.create({ sku_list: [], spu_id: '' });
   }
 
-  @Get()
-  findAll() {
-    return this.skuService.findAll();
+  @Get(':id')
+  @ResponseMessage('Get all SKU successfully')
+  @Public()
+  findAll(@Param('id') product_id: string) {
+    return this.skuService.findAll({ product_id });
+  }
+
+  @Public()
+  @ResponseMessage('Select variation successfully')
+  @Get('select_variation')
+  findOneSku(@Query() query: { sku_id?: string; product_id?: string }) {
+    const sku_id = String(query.sku_id);
+    const product_id = String(query.product_id);
+    return this.skuService.findOneSku({ product_id, sku_id });
   }
 
   @Get(':id')
