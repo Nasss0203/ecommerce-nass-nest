@@ -14,18 +14,26 @@ import {
   ResponseMessage,
 } from 'src/common/decorator/customize.decorator';
 import { IAuth } from 'src/modules/user-management/auth/auth.interface';
-import { CreateSpuDto } from './dto/create-spu.dto';
-import { UpdateSpuDto } from './dto/update-spu.dto';
-import { SpuService } from './spu.service';
+import { CreateSpuDto } from '../../application/dto/create-spu.dto';
+import { UpdateSpuDto } from '../../application/dto/update-spu.dto';
+import { SpuCreateUseCase } from '../../application/use-case/create.use-case';
+import { SpuService } from '../../spu.service';
 
 @Controller('spu')
 export class SpuController {
-  constructor(private readonly spuService: SpuService) {}
+  constructor(
+    private readonly spuService: SpuService,
+    private readonly spuCreateUseCase: SpuCreateUseCase,
+  ) {}
 
   @Post('create')
   @ResponseMessage('Create SPU successfully')
   create(@Body() createSpuDto: CreateSpuDto, @Auth() auth: IAuth) {
-    return this.spuService.create(createSpuDto, auth);
+    return this.spuCreateUseCase.execute({
+      createSpuDto,
+      auth: auth._id,
+      shopId: auth.shop_id,
+    });
   }
 
   @Get()

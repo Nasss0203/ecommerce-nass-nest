@@ -1,0 +1,27 @@
+import { convertToObjectIdMongodb } from 'src/utils';
+import { SpuEntity } from '../../domain/entities/spu.entity';
+import { Spu } from '../../infrastructure/schemas/spu.schema';
+
+export function mapCreateSpuDtoToEntity(entity: SpuEntity): Partial<Spu> {
+  return {
+    product_id: entity.product_id,
+    product_name: entity.product_name,
+    product_thumb: entity.product_thumb,
+    product_description: entity.product_description,
+    product_price: entity.product_price,
+    product_images: entity.product_images,
+    product_slug: entity.product_slug,
+    product_quantity: entity.product_quantity,
+    product_category: convertToObjectIdMongodb(entity.product_category),
+    product_brand: convertToObjectIdMongodb(entity.product_brand),
+    product_attributes: entity.product_attributes,
+    product_ratingAverage: entity.product_ratingAverage,
+    product_variations: entity.product_variations,
+    isDraft: entity.isDraft,
+    isPublished: entity.isPublished,
+    product_auth: convertToObjectIdMongodb(entity.product_auth),
+    product_shop: convertToObjectIdMongodb(entity.product_shop),
+    isDeleted: entity.isDeleted,
+    sku_list: entity.sku_list as any,
+  };
+}

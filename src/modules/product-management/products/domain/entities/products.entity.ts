@@ -30,7 +30,7 @@ export class ProductEntity {
   public product_attributes: Record<string, any>;
   public product_auth: string;
   public product_ratingAverage: number;
-  public product_variations: any[];
+  public product_variations: [];
   public isDraft: boolean;
   public isPublished: boolean;
   public product_shop: string;

@@ -12,9 +12,9 @@ import {
   Public,
   ResponseMessage,
 } from 'src/common/decorator/customize.decorator';
-import { CreateSkuDto } from './dto/create-sku.dto';
-import { UpdateSkuDto } from './dto/update-sku.dto';
-import { SkuService } from './sku.service';
+import { CreateSkuDto } from '../../applications/dto/create-sku.dto';
+import { UpdateSkuDto } from '../../applications/dto/update-sku.dto';
+import { SkuService } from '../../sku.service';
 
 @Controller('sku')
 export class SkuController {

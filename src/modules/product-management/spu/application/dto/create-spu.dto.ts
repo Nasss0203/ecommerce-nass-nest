@@ -11,6 +11,12 @@ export class CreateSpuDto {
   product_quantity: number;
   product_category: string;
   product_brand: string;
+  product_ratingAverage: number;
+  isDraft: boolean;
+  isDeleted: boolean;
+  isPublished: boolean;
+  product_shop: Types.ObjectId;
+
   product_attributes: Record<string, any>;
   product_auth: Types.ObjectId;
   product_variations: [];

@@ -6,9 +6,9 @@ import { ShopRepository } from 'src/modules/shop-management/shops/infrastructure
 import { IAuth } from 'src/modules/user-management/auth/auth.interface';
 import { convertToObjectIdMongodb, randomProductId } from 'src/utils';
 import { SkuService } from '../sku/sku.service';
-import { CreateSpuDto } from './dto/create-spu.dto';
-import { UpdateSpuDto } from './dto/update-spu.dto';
-import { Spu } from './schemas/spu.schema';
+import { CreateSpuDto } from './application/dto/create-spu.dto';
+import { UpdateSpuDto } from './application/dto/update-spu.dto';
+import { Spu } from './infrastructure/schemas/spu.schema';
 
 @Injectable()
 export class SpuService {
@@ -18,11 +18,11 @@ export class SpuService {
     private readonly shopRepository: ShopRepository,
   ) {}
   async create(createSpuDto: CreateSpuDto, userId: IAuth) {
-    const foundShip = await this.shopRepository.findShopById({
+    const foundShop = await this.shopRepository.findShopById({
       id: userId.shop_id,
     });
 
-    if (!foundShip) {
+    if (!foundShop) {
       throw new HttpException('Shop not found', HttpStatus.NOT_FOUND);
     }
 

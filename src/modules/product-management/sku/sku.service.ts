@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { omit } from 'lodash';
 import { Model } from 'mongoose';
 import { randomProductId } from 'src/utils';
-import { UpdateSkuDto } from './dto/update-sku.dto';
-import { Sku } from './schemas/sku.schema';
+import { UpdateSkuDto } from './applications/dto/update-sku.dto';
+import { Sku } from './infrastructure/schemas/sku.schema';
 
 @Injectable()
 export class SkuService {
